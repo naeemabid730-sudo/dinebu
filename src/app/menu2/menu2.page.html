@@ -1,0 +1,100 @@
+<ion-content class="menu-page">
+
+  <div class="header">
+    <div class="brand">
+      <h1>Fresh Menu</h1>
+      <p>Discover delicious meals</p>
+    </div>
+    <div class="header-actions">
+      <div class="search-btn" (click)="goToSearch()">
+        <ion-icon name="search-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section">
+    <swiper-container 
+      slides-per-view="3.8" 
+      space-between="15" 
+      class="cat-swiper">
+      
+      <swiper-slide *ngFor="let cat of categories; let i = index">
+        <div 
+          class="cat-card" 
+          [class.active]="selectedCategory === cat.name"
+          (click)="selectCategory(cat.name)"
+        >
+          <div class="img-box" [ngClass]="'bg-grad-' + (i % 6)">
+            <img [src]="cat.img" />
+          </div>
+          <p>{{cat.name}}</p>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <div class="section-title">
+    <div class="title-left">
+      <h2>{{selectedCategory}}</h2>
+      <div class="title-line"></div>
+    </div>
+    <span class="count">{{ getFilteredFoods().length }} Items</span>
+  </div>
+
+  <div class="food-list">
+    <div class="food-card" *ngFor="let item of getFilteredFoods(); let i = index" (click)="openDetails(item)">
+      
+      <div class="img-wrapper" [ngClass]="'bg-grad-' + (i % 6)">
+        <img [src]="item.img" class="food-img">
+      </div>
+
+      <div class="food-info">
+        <div class="top-meta">
+          <h3>{{item.name}}</h3>
+          <ion-icon name="heart-outline" class="fav-icon"></ion-icon>
+        </div>
+        <p class="desc">{{item.desc}}</p>
+        
+        <div class="price-row">
+          <div class="price-box">
+            <span class="currency">Rs</span>
+            <span class="price-val">{{item.price}}</span>
+          </div>
+          
+          <div class="action-btn" (click)="addToCart(item, $event)">
+            <ion-icon [name]="item.hasSize ? 'options-outline' : 'add-outline'"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="bottom-nav">
+    <div class="nav-item" (click)="goToPage('/menu')">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+
+    <div class="nav-item active">
+      <div class="menu-pill">
+        <ion-icon name="restaurant"></ion-icon>
+        <span>Menu</span>
+      </div>
+    </div>
+
+    <div class="nav-item cart-btn" (click)="goToPage('/my-cart')">
+      <ion-icon name="bag-handle-outline"></ion-icon>
+      <span class="red-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+    </div>
+
+    <div class="nav-item" (click)="goToPage('/order-status')">
+      <ion-icon name="receipt-outline"></ion-icon>
+    </div>
+
+    <div class="nav-item" (click)="goToPage('/profile')">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+  </div>
+</ion-footer> 

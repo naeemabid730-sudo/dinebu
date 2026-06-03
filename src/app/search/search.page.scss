@@ -1,0 +1,261 @@
+// Toolbar Styling
+ion-toolbar {
+  --background: #ffffff;
+  padding: 8px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  --padding-start: 0;
+  --padding-end: 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.search-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #f4f5f7;
+  padding: 8px 14px;
+  border-radius: 12px;
+  
+  ion-icon {
+    color: #999;
+    font-size: 18px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    margin-left: 10px;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .close-icon {
+    color: #ccc;
+    font-size: 18px;
+  }
+}
+
+// List Container
+.list-container {
+  padding: 20px 16px;
+  background: #fafafa;
+  min-height: 100%;
+}
+
+// MODERN GRADIENT CARD
+.card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  
+  // Dynamic Gradients based on index
+  transition: transform 0.2s ease;
+
+  &:nth-child(4n+1) { background: linear-gradient(135deg, #e0f2fe 0%, #fff 100%); } // Blueish
+  &:nth-child(4n+2) { background: linear-gradient(135deg, #fef2f2 0%, #fff 100%); } // Pinkish
+  &:nth-child(4n+3) { background: linear-gradient(135deg, #f0fdf4 0%, #fff 100%); } // Greenish
+  &:nth-child(4n+4) { background: linear-gradient(135deg, #fff7ed 0%, #fff 100%); } // Orangeish
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.img-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: #fff;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.info {
+  flex: 1;
+  margin-left: 15px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2d3436;
+    margin: 0;
+  }
+
+  p {
+    font-size: 13px;
+    color: #636e72;
+    margin: 4px 0 0 0;
+    line-height: 1.2;
+  }
+}
+
+.price-tag {
+  text-align: right;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 6px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+
+  .currency {
+    font-size: 11px;
+    font-weight: 600;
+    color: #d63031;
+    margin-right: 2px;
+  }
+
+  .amount {
+    font-size: 16px;
+    font-weight: 800;
+    color: #2d3436;
+  }
+}
+// Main Toolbar
+ion-toolbar {
+  --background: #ffffff;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  gap: 15px;
+
+  .back-icon, .filter-icon {
+    font-size: 24px;
+    color: #333;
+  }
+}
+
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #f1f3f5;
+  padding: 10px 15px;
+  border-radius: 14px;
+
+  ion-icon { color: #888; font-size: 18px; }
+  input {
+    border: none;
+    background: transparent;
+    outline: none;
+    margin-left: 10px;
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+// List Styling
+.main-container {
+  padding: 15px;
+  background: #fcfcfc;
+}
+
+.custom-card {
+  display: flex;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 12px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  align-items: center;
+  transition: 0.3s ease;
+
+  &:active { transform: scale(0.97); }
+
+  // IMAGE CONTAINER WITH GRADIENT BACKGROUND
+  .img-container {
+    width: 85px;
+    height: 85px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; // Spacing for background visibility
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; // Taake image background ke upar clear dikhe
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+    }
+  }
+
+  // Content Area
+  .content-section {
+    flex: 1;
+    margin-left: 15px;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #222;
+      margin: 0;
+    }
+
+    p {
+      font-size: 12px;
+      color: #777;
+      margin: 4px 0 10px 0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .price {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1a1a1a;
+    }
+
+    .add-btn {
+      background: #222;
+      color: #fff;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // VIBRANT GRADIENTS FOR IMAGE BACKGROUNDS
+  &:nth-child(4n+1) .img-container { background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%); }
+  &:nth-child(4n+2) .img-container { background: linear-gradient(135deg, #D9AFD9 0%, #97D9E1 100%); }
+  &:nth-child(4n+3) .img-container { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+  &:nth-child(4n+4) .img-container { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+}

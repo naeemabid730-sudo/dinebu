@@ -1,0 +1,165 @@
+/* OpenLayers CSS Import - Sab se upar hona zaroori hai */
+@import "ol/ol.css";
+
+/* MAP SECTION */
+.map-container {
+  height: 60vh; /* Mobile par thora chota rakha hai taake card nazar aaye */
+  min-height: 400px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  background: #f2f2f2;
+
+  #mapId {
+    height: 100% !important; /* Container ki poori height use karega */
+    width: 100%;
+    background: #f2f2f2;
+    /* Android touch fix */
+    touch-action: none;
+  }
+
+  .back-btn {
+    position: absolute;
+    top: 45px;
+    left: 20px;
+    z-index: 999;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+    ion-icon {
+      font-size: 24px;
+      color: #111;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* RIDER CARD */
+.rider-card {
+  /* Height ko fix nahi kiya taake content ke hisab se adjust ho */
+  min-height: 40vh;
+  background: #ffffff;
+  margin-top: -40px; /* Map ke upar overlap karega */
+  border-radius: 40px 40px 0 0;
+  position: relative;
+  z-index: 10;
+  padding: 25px 20px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+
+  &::before {
+    content: "";
+    width: 55px;
+    height: 5px;
+    background: #ececec;
+    border-radius: 20px;
+    display: block;
+    margin: -10px auto 20px;
+  }
+
+  .rider-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+
+    img {
+      width: 65px;
+      height: 65px;
+      border-radius: 18px;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .info {
+      flex: 1;
+      h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+        color: #111;
+      }
+      p {
+        margin: 5px 0 0 0;
+        color: #ff4d4d;
+        font-size: 13px;
+        font-weight: 600;
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+
+      .circle-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: #fff3f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+
+        ion-icon {
+          font-size: 22px;
+          color: #ff4d4d;
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
+      }
+    }
+  }
+
+  .eta-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+    padding: 18px;
+    border-radius: 24px;
+    border: 1px solid #f0f0f0;
+
+    .time {
+      span {
+        font-size: 11px;
+        color: #999;
+        text-transform: uppercase;
+        font-weight: 700;
+        display: block;
+      }
+      h4 {
+        margin: 5px 0 0 0;
+        font-size: 24px;
+        font-weight: 900;
+        color: #222;
+      }
+    }
+
+    .status {
+      background: #ff4d4d;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+      border: none;
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">dinebu</string>
+    <string name="title_activity_main">dinebu</string>
+    <string name="package_name">com.dinebu.app</string>
+    <string name="custom_url_scheme">com.dinebu.app</string>
+    <string name="server_client_id">116841893564-8os9cnmjtbtcb4sd0lvfp6nm4d743qtk.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1265380032334190</string>
+    <string name="fb_login_protocol_scheme">fb1265380032334190</string>
+    <string name="facebook_client_token">eec26f188a1a7ab9b94dfdd49bade437</string>
+</resources>

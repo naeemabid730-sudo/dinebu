@@ -1,0 +1,202 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <!-- Back Button with Ripple effect -->
+    <div class="back-btn" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+    <div class="title">Payment Method</div>
+    <div class="right-space"></div>
+  </div>
+</ion-header>
+
+<ion-content class="bg-light">
+  <div class="payment-container">
+    
+    <!-- Stepper (Updated design) -->
+    <div class="stepper">
+      <div class="step complete">
+        <div class="circle"><ion-icon name="checkmark"></ion-icon></div>
+        <span>Time</span>
+      </div>
+      <div class="line active"></div>
+      <div class="step complete">
+        <div class="circle"><ion-icon name="checkmark"></ion-icon></div>
+        <span>Address</span>
+      </div>
+      <div class="line active"></div>
+      <div class="step active">
+        <div class="circle">3</div>
+        <span>Payment</span>
+      </div>
+    </div>
+
+    <!-- Radio Group Wrapper -->
+    <ion-radio-group [value]="selectedMethod" (ionChange)="onMethodChange($event)">
+      
+      <!-- Cash on Delivery -->
+      <div class="payment-card" [class.selected]="selectedMethod === 'COD'" (click)="selectedMethod = 'COD'">
+        <div class="card-content">
+          <div class="icon-box cod">
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+          <div class="text">
+            <h3>Cash on Delivery</h3>
+            <p>Pay when you receive your food</p>
+          </div>
+        </div>
+        <ion-radio value="COD"></ion-radio>
+      </div>
+
+      <!-- Mobile Wallet -->
+      <div class="payment-card" [class.selected]="selectedMethod === 'wallet'" (click)="selectedMethod = 'wallet'">
+        <div class="card-content">
+          <div class="icon-box wallet">
+            <ion-icon name="wallet-outline"></ion-icon>
+          </div>
+          <div class="text">
+            <h3>Mobile Wallet</h3>
+            <p>JazzCash / EasyPaisa</p>
+          </div>
+        </div>
+        <ion-radio value="wallet"></ion-radio>
+      </div>
+
+      <!-- Wallet Options (JazzCash/EasyPaisa) -->
+      <div class="sub-options-container" *ngIf="selectedMethod === 'wallet'">
+        <div class="wallet-btn" *ngFor="let w of wallets" 
+             [class.active]="selectedWallet?.key === w.key" (click)="chooseWallet(w)">
+          <div class="wallet-logo-wrapper">
+            <img [src]="w.logo" [alt]="w.name">
+          </div>
+          <span>{{ w.name }}</span>
+          <ion-icon name="checkmark-circle" *ngIf="selectedWallet?.key === w.key" class="check-tick"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="payment-card" [class.selected]="selectedMethod === 'card'" (click)="selectedMethod = 'card'">
+        <div class="card-content">
+          <div class="icon-box card">
+            <ion-icon name="card-outline"></ion-icon>
+          </div>
+          <div class="text">
+            <h3>Credit / Debit Card</h3>
+            <p>Visa / MasterCard</p>
+          </div>
+        </div>
+        <ion-radio value="card"></ion-radio>
+      </div>
+
+    </ion-radio-group>
+
+    <!-- Summary Section (Updated to Rs) -->
+    <div class="summary-card">
+      <div class="summary-header">
+        <ion-icon name="receipt-outline"></ion-icon>
+        <h3>Order Summary</h3>
+      </div>
+      <div class="summary-details">
+        <div class="row">
+          <span>Subtotal</span>
+          <span class="val">Rs {{ subtotal }}</span>
+        </div>
+        <div class="row">
+          <span>Delivery Fee</span>
+          <span class="val">Rs {{ shipping }}</span>
+        </div>
+        <div class="divider"></div>
+        <div class="row total">
+          <span>Total Amount</span>
+          <span class="total-val">Rs {{ totalCost }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Button -->
+    <div class="footer-btn-container">
+      <button class="pay-btn" (click)="payNow()" [disabled]="selectedMethod === 'wallet' && !selectedWallet">
+        <span class="btn-text">
+          {{ selectedMethod === 'COD' ? 'Place Order' : 'Confirm & Pay' }}
+        </span>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Success Modal (Updated with Address & Shipping) -->
+  <!-- Success Modal Updated -->
+<ion-modal [isOpen]="showReceipt" class="success-modal">
+  <ng-template>
+    <div class="success-content">
+      <div class="celebration-icon">
+        <ion-icon name="checkmark-done-circle"></ion-icon>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p>Thank you, your order is being processed.</p>
+      
+      <div class="order-id-badge">
+        Order ID: <span>#{{ orderId }}</span>
+      </div>
+
+      <!-- Scrollable Container for Details -->
+      <div class="receipt-scroll-area">
+        
+        <!-- 1. Amount Pay / Consignee Info -->
+        <div class="info-section">
+          <p class="section-title"><ion-icon name="person-outline"></ion-icon> Consignee Information</p>
+          <div class="detail-box">
+            <div class="r-row"><span>Customer Name:</span> <strong>{{ userName }}</strong></div>
+            <div class="r-row"><span>Contact:</span> <strong>{{ userPhone }}</strong></div>
+            <div class="r-row"><span>Amount to Pay:</span> <strong class="text-primary">Rs {{ totalCost }}</strong></div>
+            <div class="r-row"><span>Payment Method:</span> <strong>{{ selectedMethod === 'COD' ? 'Cash on Delivery' : selectedWallet?.name }}</strong></div>
+          </div>
+        </div>
+
+        <!-- 2. Shipper / Pickup Information -->
+        <div class="info-section">
+          <p class="section-title"><ion-icon name="business-outline"></ion-icon> Shipper Information</p>
+          <div class="detail-box">
+            <div class="r-row"><span>Pickup Address:</span> <strong>{{ pickupAddress }}</strong></div>
+            <div class="r-row"><span>Return Address:</span> <strong>{{ returnAddress }}</strong></div>
+            <div class="r-row"><span>Shipping Type:</span> <strong style="text-transform: capitalize;">{{ shippingMethod }}</strong></div>
+          </div>
+        </div>
+
+        <!-- 3. Delivery Address (Where it's going) -->
+        <div class="info-section" *ngIf="displayAddress">
+          <p class="section-title"><ion-icon name="location-outline"></ion-icon> Delivery To</p>
+          <div class="detail-box">
+            <p class="address-text">
+              <strong>{{ displayAddress.label | titlecase }}:</strong> Flat {{ displayAddress.flatNo }}, {{ displayAddress.fullAddress }}
+            </p>
+          </div>
+        </div>
+
+        <!-- 4. Order Details (Items list) -->
+        <div class="info-section">
+          <p class="section-title"><ion-icon name="fast-food-outline"></ion-icon> Order Details</p>
+          <div class="detail-box">
+            <div class="item-row" *ngFor="let item of cartItems">
+              <span>{{ item.qty }}x {{ item.name }}</span>
+              <span>Rs {{ item.price * item.qty }}</span>
+            </div>
+            <div class="divider"></div>
+            <div class="r-row"><span>Subtotal:</span> <span>Rs {{ subtotal }}</span></div>
+            <div class="r-row"><span>Delivery:</span> <span>Rs {{ shipping }}</span></div>
+          </div>
+        </div>
+
+      </div> <!-- Scroll Area End -->
+
+      <div class="action-btns">
+        <button class="track-btn" (click)="goToOrderStatus()">
+          <ion-icon name="bicycle-outline"></ion-icon> Track My Order
+        </button>
+        <button class="home-btn-outline" (click)="closeReceipt()">
+          Back to Home
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>
+</ion-content>

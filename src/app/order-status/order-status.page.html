@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+    <div class="title-container">
+      <span class="main-title">Order Status</span>
+      <span class="order-id">{{ orderId }}</span>
+    </div>
+    <ion-icon name="help-circle-outline" class="support-icon"></ion-icon>
+  </div>
+</ion-header>
+
+<ion-content class="bg-light">
+  <div class="stepper-card">
+    <div class="step" [class.active]="currentStatus >= 1">
+      <div class="icon-circle"><ion-icon name="fast-food-outline"></ion-icon></div>
+      <span>Pending</span>
+    </div>
+    <div class="line" [class.filled]="currentStatus >= 2"></div>
+    <div class="step" [class.active]="currentStatus >= 2">
+      <div class="icon-circle"><ion-icon name="checkmark-circle"></ion-icon></div>
+      <span>Confirmed</span>
+    </div>
+    <div class="line" [class.filled]="currentStatus >= 3"></div>
+    <div class="step" [class.active]="currentStatus >= 3">
+      <div class="icon-circle"><ion-icon name="bicycle-outline"></ion-icon></div>
+      <span>On Way</span>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <h3 class="label-text">Items in Order</h3>
+    <div class="horizontal-scroll">
+      <div class="item-card" *ngFor="let item of activeItems">
+        <img [src]="item.image || 'assets/imgs/shoe.png'" />
+        <div class="item-info">
+          <h4>{{ item.name }}</h4>
+          <p>Qty: {{ item.qty }} | ${{ item.price }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div class="row"><span>Subtotal</span><span>${{ subtotal }}</span></div>
+      <div class="row"><span>Delivery Fee</span><span>${{ deliveryFee }}</span></div>
+      <div class="divider"></div>
+      <div class="row total"><span>Total Paid</span><span>${{ subtotal + deliveryFee }}</span></div>
+    </div>
+
+    <div class="action-grid">
+      <button class="btn-secondary" (click)="cancelOrder()">
+        <ion-icon name="close-circle-outline"></ion-icon> Cancel Order
+      </button>
+     <button class="btn-primary" (click)="goToTracking()">
+  <ion-icon name="bicycle-outline"></ion-icon> Track Live
+</button>
+    </div> 
+  </div>
+</ion-content>

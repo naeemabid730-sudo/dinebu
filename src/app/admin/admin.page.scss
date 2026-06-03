@@ -1,0 +1,87 @@
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  padding: 20px 10px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  ion-icon { font-size: 32px; margin-bottom: 5px; }
+  h3 { margin: 5px 0; font-size: 20px; font-weight: bold; }
+  p { margin: 0; font-size: 12px; }
+
+  &.orders { background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%); }
+  &.revenue { background: linear-gradient(135deg, #1D976C 0%, #93F9B9 100%); }
+  &.users { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); }
+}
+
+.section-title {
+  font-weight: 800;
+  font-size: 18px;
+  margin: 20px 0 10px;
+  color: #333;
+}
+
+.admin-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.custom-input {
+  --background: #f8f8f8;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.add-btn {
+  width: 100%;
+  background: #b30000;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+}
+
+.order-card {
+  margin: 10px 0;
+  border-radius: 12px;
+  border-left: 5px solid #b30000;
+}
+
+.status-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.chart-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+
+  ion-card-title {
+    font-weight: 800;
+    color: #333;
+  }
+}
+
+canvas {
+  max-height: 250px; // Graph ki height control karne ke liye
+  width: 100% !important;
+}
+.stat-box {
+  background: #f4f5f8;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  p { font-weight: bold; font-size: 1.1rem; margin: 0; }
+}
+.order-card { border-left: 5px solid #3880ff; margin-bottom: 15px; }
+.item-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-top: 5px; }

@@ -1,0 +1,179 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <div class="back-btn" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+    <div class="title">Secure Checkout</div>
+    <div class="right-space"></div>
+  </div>
+</ion-header>
+
+<ion-content class="bg-light">
+  <div class="checkout-container">
+    
+    <div class="modern-card">
+      <div class="section-title">
+        <ion-icon name="bicycle-outline"></ion-icon> Order Type
+      </div>
+      <div class="type-selector">
+        <button [class.active]="orderType === 'delivery'" (click)="setOrderType('delivery')">
+          <ion-icon name="home-outline"></ion-icon> Delivery
+        </button>
+        <button [class.active]="orderType === 'pickup'" (click)="setOrderType('pickup')">
+          <ion-icon name="storefront-outline"></ion-icon> Pickup
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="orderType === 'pickup'" class="modern-card">
+      <div class="section-title">
+        <ion-icon name="time-outline"></ion-icon> Schedule Pickup
+      </div>
+      <div class="datetime-buttons">
+        <button class="dt-btn" id="date-trigger">
+          <ion-icon name="calendar"></ion-icon>
+          <span>{{ selectedDate | date:'mediumDate' }}</span>
+        </button>
+        <button class="dt-btn" id="time-trigger">
+          <ion-icon name="time"></ion-icon>
+          <span>{{ selectedTime | date:'shortTime' }}</span>
+        </button>
+      </div>
+
+      <ion-modal trigger="date-trigger" class="center-modal">
+        <ng-template>
+          <ion-datetime presentation="date" [(ngModel)]="selectedDate" [showDefaultButtons]="true"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+      <ion-modal trigger="time-trigger" class="center-modal">
+        <ng-template>
+          <ion-datetime presentation="time" [(ngModel)]="selectedTime" [showDefaultButtons]="true" hourCycle="h12"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+
+    <div class="modern-card">
+      <div class="section-title">
+        <ion-icon name="document-text-outline"></ion-icon> Contact Details
+      </div>
+      <div class="input-form">
+        <div class="input-box">
+          <ion-icon name="person"></ion-icon>
+          <input type="text" placeholder="Full Name" [(ngModel)]="userDetails.name">
+        </div>
+        <div class="input-box">
+          <ion-icon name="mail"></ion-icon>
+          <input type="email" placeholder="Email Address" [(ngModel)]="userDetails.email">
+        </div>
+        <div class="input-box">
+          <ion-icon name="call"></ion-icon>
+          <input type="tel" placeholder="Phone Number" [(ngModel)]="userDetails.phone">
+        </div>
+        
+        <ng-container *ngIf="orderType === 'delivery'">
+          <div class="input-box area-selector" (click)="openAreaModal()">
+            <ion-icon name="map" class="loc-icon"></ion-icon>
+            <input type="text" placeholder="Select Area" [(ngModel)]="userDetails.area" readonly>
+            <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
+          </div>
+          <div class="input-box">
+            <ion-icon name="location"></ion-icon>
+            <input type="text" placeholder="House No, Street, Landmark" [(ngModel)]="userDetails.address">
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="modern-card summary-card">
+      <div class="section-title">
+        <ion-icon name="receipt-outline"></ion-icon> Order Items
+      </div>
+
+      <div class="checkout-item-list">
+        <div class="checkout-item-card" *ngFor="let item of cartItems">
+          <div class="item-img-box">
+            <img [src]="item.image || item.img" alt="product">
+          </div>
+          <div class="item-info">
+            <h4 class="name">{{item.name}}</h4>
+            <p class="qty-price">{{item.qty}}x Rs {{item.price}}</p>
+          </div>
+          <div class="item-total">
+            Rs {{item.price * item.qty}}
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" style="margin-top: 15px;"></div>
+
+      <div class="bill-details">
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span>Rs {{ totalAmount - (orderType === 'delivery' ? 150 : 0) }}</span>
+        </div>
+        <div class="summary-line" *ngIf="orderType === 'delivery'">
+          <span>Delivery Fee</span>
+          <span>Rs 150</span>
+        </div>
+        <div class="summary-line total-bold">
+          <span>Grand Total</span>
+          <span class="total-amount">Rs {{totalAmount}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isAreaModalOpen" (didDismiss)="isAreaModalOpen = false" class="area-modal">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Select Area</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isAreaModalOpen = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list class="custom-area-list">
+          <ion-item button *ngFor="let area of pakpattanAreas" (click)="selectArea(area)" lines="full">
+            <ion-icon name="location-outline" slot="start" color="medium"></ion-icon>
+            <ion-label>{{ area }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <div class="success-overlay" *ngIf="isOrderSuccessful">
+    <div class="success-card">
+      <div class="icon-wrapper">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p class="order-id">Order ID: <span>#{{ orderId }}</span></p>
+      <p class="status-text">Your order is confirmed. Now please select your shipping method to proceed.</p>
+      
+      <div class="success-bill">
+        <span>Amount Payable:</span>
+        <strong>Rs {{totalAmount}}</strong>
+      </div>
+
+      <button class="home-btn pay-btn" (click)="goToShipping()">Pay Now / Select Shipping</button>
+      
+      <p (click)="goToHome()" style="color: #666; font-size: 14px; margin-top: 15px; cursor: pointer;">
+        Skip for now
+      </p>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-container">
+    <button class="place-order-btn" (click)="placeOrder()">
+      <span class="btn-text">Confirm Order</span>
+      <span class="total-price">Rs {{totalAmount}} <ion-icon name="arrow-forward-outline"></ion-icon></span>
+    </button>
+  </div>
+</ion-footer>

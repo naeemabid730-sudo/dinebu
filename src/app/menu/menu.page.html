@@ -1,0 +1,253 @@
+<ion-content [fullscreen]="true">
+  <div class="header">
+    <div class="logo-section" (click)="openBranchModal()">
+      <img src="assets/q1.png" alt="Logo" class="brand-logo">
+      <div class="brand-text">
+        <h2>DineBux</h2>
+        <p>Branch {{ currentBranch }} <ion-icon name="caret-down-outline"></ion-icon></p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="notif-badge" (click)="handleInfoClick()">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </div>
+      <div class="notif-badge">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isInfoModalOpen" (didDismiss)="isInfoModalOpen = false" class="center-modal">
+    <ng-template>
+      <div class="modal-content-selection info-modal">
+        <div class="modal-header">
+          <div class="brand-badge">
+            <ion-icon name="restaurant"></ion-icon>
+          </div>
+          <h2>DineBux Pakpattan</h2>
+          <p class="subtitle">Quality Food, Delivered Fast</p>
+        </div>
+
+        <div class="info-body">
+          <div class="info-row">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <div>
+              <p class="label">Owner</p>
+              <p class="value">Naeem Abid</p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="call-outline"></ion-icon>
+            <div>
+              <p class="label">Contact Number</p>
+              <p class="value">+92 300 1234567</p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <p class="label">Main Branch</p>
+              <p class="value">Ghalla Mandi Road, Pakpattan Sharif</p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="time-outline"></ion-icon>
+            <div>
+              <p class="label">Operational Hours</p>
+              <p class="value">Monday - Sunday (10 AM - 12 AM)</p>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="app-footer-info">
+            <p><strong>App Version:</strong> 1.0.2 (Stable)</p>
+            <p><strong>Delivery Range:</strong> 20km within Pakpattan City</p>
+          </div>
+        </div>
+
+        <button class="confirm-btn" (click)="isInfoModalOpen = false">
+          GOT IT
+        </button>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <div class="location-container" (click)="openLocationModal()">
+    <div class="location-card">
+      <div class="loc-icon"><ion-icon name="location"></ion-icon></div>
+      <div class="loc-details">
+        <p>Deliver to</p>
+        <h3 class="location-text">{{ selectedLocation }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <div class="search-box" (click)="goToSearch()">
+      <ion-icon name="search-outline"></ion-icon>
+      <input type="text" placeholder="Search products..." readonly />
+    </div>
+  </div>
+
+  <div class="section-header">
+    <h3>Categories</h3>
+    <a class="see-all">See All</a>
+  </div>
+  
+  <swiper-container slides-per-view="4.2" space-between="10" autoplay="true" loop="true" class="category-slider">
+    <swiper-slide *ngFor="let c of branch1Items; let i = index">
+      <div class="category-item">
+        <div class="cat-img-wrapper" [ngClass]="'cat-color-' + (i % 6)">
+          <img [src]="c.img" />
+        </div>
+        <p>{{ c.name.split(' ')[0] }}</p>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+
+  <div *ngIf="currentBranch === 2">
+    <div class="special-deal-container">
+      <swiper-container autoplay-delay="3000" loop="true" class="deal-swiper">
+        <swiper-slide *ngFor="let deal of branch2Items">
+          <div class="deal-card" (click)="openDetails(deal)">
+            <div class="deal-left">
+              <button class="deal-tag">Deal</button>
+              <div class="deal-info">
+                <h4>{{ deal.name }}</h4>
+                <span class="deal-price">Rs {{ deal.price }}</span>
+              </div>
+              <button class="order-now-btn" (click)="addToCart(deal); $event.stopPropagation()">
+                Order Now
+              </button>
+            </div>
+            <div class="deal-right">
+              <img [src]="deal.img">
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <h3>Popular Items</h3>
+    <a class="see-all">See All</a>
+  </div>
+
+  <ion-grid class="product-grid">
+    <ion-row>
+      <ion-col size="6" *ngFor="let item of branch1Items; let i = index" (click)="openDetails(item)">
+        <div class="product-card" [ngClass]="'card-color-' + (i % 6)">
+          <div class="img-container">
+            <div class="color-blob"></div> 
+            <img [src]="item.img" />
+            <span class="weight-tag" *ngIf="item.weight">{{item.weight}}</span>
+          </div>
+          <div class="product-info">
+            <div class="text-content">
+              <h4>{{item.name}}</h4>
+              <p class="short-desc">{{item.desc}}</p>
+            </div>
+            <div class="price-row">
+              <span class="price">Rs {{item.price}}</span>
+              <button class="add-btn" (click)="addToCart(item); $event.stopPropagation()">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-modal [isOpen]="isBranchModalOpen" (didDismiss)="isBranchModalOpen = false" class="center-modal">
+    <ng-template>
+      <div class="modal-content-selection">
+        <h2>Select Branch</h2>
+        <div class="modal-buttons-grid">
+          <button class="loc-btn-white" (click)="selectBranch(1)">
+            <ion-icon name="restaurant-outline"></ion-icon> 
+            <span>Branch 1 (Main)</span>
+          </button>
+          <button class="loc-btn-white" (click)="selectBranch(2)">
+            <ion-icon name="flame-outline"></ion-icon> 
+            <span>Branch 2 (Deals)</span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="isLocationModalOpen" (didDismiss)="isLocationModalOpen = false" class="center-modal">
+    <ng-template>
+      <div class="modal-content-selection">
+        <h2>Select Delivery Location</h2>
+        <div class="modal-buttons-grid">
+          <button class="loc-btn-white" (click)="useCurrentLocation()">
+            <ion-icon name="navigate-outline"></ion-icon> 
+            <span>Use Current Location</span>
+          </button>
+          <button class="loc-btn-white" (click)="openMap()">
+            <ion-icon name="map-outline"></ion-icon> 
+            <span>Choose on Map</span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="isMapModalOpen" (didDismiss)="isMapModalOpen = false" class="full-screen-modal">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="primary">
+          <ion-title>Pakpattan Map</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isMapModalOpen = false">CLOSE</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <div class="map-view-wrapper" style="height: 100%; position: relative;">
+        <div id="mapId" style="height: 100%; width: 100%;"></div>
+        <div class="map-center-pin" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%); z-index: 999; pointer-events: none; text-align: center;">
+          <div style="background: #b30000; color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; margin-bottom: 5px;">Deliver Here</div>
+          <ion-icon name="location" style="font-size: 40px; color: #b30000;"></ion-icon>
+        </div>
+        <div style="position: absolute; bottom: 0; width: 100%; background: white; padding: 20px; z-index: 1000; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.1);">
+          <p style="margin: 0; font-size: 12px; color: #666;">Current Area in Pakpattan:</p>
+          <h3 style="margin: 5px 0 15px; font-size: 16px; font-weight: bold; color: #333;">{{ tempAddress }}</h3>
+          <button (click)="confirmLocation()" style="width: 100%; background: #b30000; color: white; padding: 15px; border-radius: 10px; border: none; font-weight: bold; font-size: 16px;">
+            Confirm Location
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="bottom-nav">
+    <div class="nav-active-pill" (click)="goToPage('/menu')">
+      <ion-icon name="home-outline"></ion-icon>
+      <span>Home</span>
+    </div>
+    <div class="nav" (click)="goToPage('/menu2')">
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </div>
+    <div class="nav cart-wrapper" (click)="goToCart()">
+      <ion-icon name="bag-outline"></ion-icon>
+      <span class="red-badge" *ngIf="cartItems.length > 0">{{ cartItems.length }}</span>
+    </div>
+    <div class="nav" (click)="goToPage('/order-status')">
+      <ion-icon name="receipt-outline"></ion-icon>
+    </div>
+    <div class="nav" (click)="goToPage('/profile')">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+  </div>
+</ion-footer>

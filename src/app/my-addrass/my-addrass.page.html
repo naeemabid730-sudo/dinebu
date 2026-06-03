@@ -1,0 +1,50 @@
+<ion-content [fullscreen]="true" class="address-page">
+  <div class="header">
+    <ion-icon name="arrow-back" class="back" (click)="goToPage('/profile')"></ion-icon>
+    <div class="header-text">
+      <h1>My Addresses</h1>
+      <p>Manage your delivery locations</p>
+    </div>
+    <div class="saved">
+      <ion-icon name="location"></ion-icon>
+      <span>{{addresses.length}} saved</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="add-btn" (click)="goToPickMap()">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      Add Address
+    </button>
+    <button class="map-btn" (click)="goToPickMap()">
+      <ion-icon name="map-outline"></ion-icon>
+      Pick on Map
+    </button>
+  </div>
+
+  <div *ngIf="addresses.length === 0" class="empty">
+    <div class="empty-icon-circle">
+      <ion-icon name="pin-outline"></ion-icon>
+    </div>
+    <h3>No addresses yet</h3>
+    <p>Please add your delivery locations for faster checkout</p>
+  </div>
+
+  <div *ngIf="addresses.length > 0" class="list">
+    <div class="card" *ngFor="let item of addresses; let i = index">
+      <div class="card-content-wrapper">
+        <div class="icon-box">
+          <ion-icon [name]="getIcon(item.title)"></ion-icon>
+        </div>
+        <div class="text-box">
+          <h4>{{item.title}}</h4>
+          <p>{{item.detail}}</p>
+        </div>
+      </div>
+      <div class="card-btns">
+        <button class="edit-btn" (click)="editAddress(item, i)">Edit</button>
+        <button class="delete-btn" (click)="deleteAddress(item)">Delete</button>
+      </div>
+    </div>
+  </div>
+</ion-content>

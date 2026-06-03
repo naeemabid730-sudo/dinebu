@@ -1,0 +1,157 @@
+<ion-content [fullscreen]="true" class="profile-page">
+  <!-- Top Header Visual Section -->
+  <div class="header-visual">
+    <div class="top-nav">
+      <ion-button fill="clear" (click)="cancel()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <span class="title">Edit Profile</span>
+      <div style="width: 48px;"></div> 
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <!-- Profile Avatar Section -->
+    <div class="profile-section">
+      <div class="avatar-wrapper" (click)="isModalOpen = true">
+        <div class="image-circle">
+          <!-- Agar profileImage hai to wo show hogi, warna initials -->
+          <img *ngIf="profileImage" [src]="profileImage" class="profile-pic">
+          <div *ngIf="!profileImage" class="initials">{{ name ? name.charAt(0) : '?' }}</div>
+        </div>
+        <div class="edit-badge">
+          <ion-icon name="camera"></ion-icon>
+        </div>
+      </div>
+      <!-- Hidden Input for Web/Gallery fallback -->
+      <input type="file" id="fileInput" style="display: none" accept="image/*" (change)="onFileSelected($event)">
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+      <div class="section-title">
+        <h3>Account Settings</h3>
+        <p>Update your information to keep your profile secure.</p>
+      </div>
+
+      <div class="input-group">
+        <!-- Full Name Field -->
+        <div class="custom-field">
+          <ion-icon name="person-outline" class="field-icon"></ion-icon>
+          <div class="input-stack">
+            <label>Full Name</label>
+            <input type="text" [(ngModel)]="name" placeholder="Name">
+          </div>
+        </div>
+
+        <!-- Email Address Field -->
+        <div class="custom-field">
+          <ion-icon name="mail-outline" class="field-icon"></ion-icon>
+          <div class="input-stack">
+            <label>Email Address</label>
+            <input type="email" [(ngModel)]="email" placeholder="email@example.com">
+          </div>
+        </div>
+
+        <!-- Phone Number Field -->
+        <div class="custom-field">
+          <ion-icon name="call-outline" class="field-icon"></ion-icon>
+          <div class="input-stack">
+            <label>Phone Number</label>
+            <input type="tel" [(ngModel)]="phone" placeholder="+92 XXX XXXXXXX">
+          </div>
+        </div>
+
+        <!-- Delivery Address Field (Textarea) -->
+        <div class="custom-field textarea-field">
+          <ion-icon name="location-outline" class="field-icon"></ion-icon>
+          <div class="input-stack">
+            <label>Delivery Address</label>
+            <textarea rows="3" [(ngModel)]="address" placeholder="Address..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save and Discard Buttons -->
+      <div class="button-group">
+        <button class="btn-save" (click)="save()">
+          <span>Save Changes</span>
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+        <button class="btn-cancel" (click)="cancel()">Discard Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Sheet Modal for Picture Selection -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()" 
+             [initialBreakpoint]="0.6" [breakpoints]="[0, 0.6, 0.9]" class="dark-modal">
+    <ng-template>
+      <div class="modal-content">
+        
+        <!-- View 1: AI Avatar Search & Grid (15 Images) -->
+        <div *ngIf="showAIView" class="ai-view-container">
+          <div class="modal-header">
+            <ion-icon name="chevron-back-outline" (click)="showAIView = false" class="back-icon"></ion-icon>
+            <span class="modal-title">AI Avatars</span>
+            <div style="width: 24px;"></div>
+          </div>
+
+          <!-- Search Bar for AI -->
+          <div class="search-container">
+            <ion-searchbar 
+              placeholder="Search (e.g. boy, girl, food, logo...)" 
+              [(ngModel)]="aiSearchQuery" 
+              (ionInput)="generateAIImages()" 
+              animated="true" 
+              class="custom-search">
+            </ion-searchbar>
+          </div>
+          
+          <!-- AI Image Grid (15 scrollable items) -->
+          <div class="ai-grid-container">
+            <div class="ai-item" *ngFor="let img of aiImages" (click)="selectAIImage(img)">
+              <img [src]="img" />
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: Main Selection Menu (Default) -->
+        <div *ngIf="!showAIView">
+          <div class="modal-header">
+            <ion-icon name="close-outline" (click)="closeModal()" class="close-btn"></ion-icon>
+            <span class="modal-title">Profile Picture</span>
+            <ion-icon name="trash-outline" (click)="deletePhoto()" class="delete-btn"></ion-icon>
+          </div>
+
+          <div class="modal-options">
+            <!-- Option: Camera -->
+            <div class="option-item" (click)="takePhoto()">
+              <ion-icon name="camera-outline"></ion-icon>
+              <span>Take a Photo</span>
+            </div>
+
+            <!-- Option: Gallery -->
+            <div class="option-item" (click)="pickImage()">
+              <ion-icon name="image-outline"></ion-icon>
+              <span>Choose from Gallery</span>
+            </div>
+
+            <!-- Option: Facebook -->
+            <div class="option-item" (click)="fromFacebook()">
+              <ion-icon name="logo-facebook"></ion-icon>
+              <span>Import from Facebook</span>
+            </div>
+
+            <!-- Option: AI Avatars -->
+            <div class="option-item" (click)="fromAI()">
+              <ion-icon name="sparkles-outline"></ion-icon>
+              <span>Generate AI Images</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

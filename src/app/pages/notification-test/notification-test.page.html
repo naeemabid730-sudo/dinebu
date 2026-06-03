@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>DineBux Push Diagnostics</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div style="text-align: center; margin-top: 20px;">
+    <h2>OneSignal Connection Live</h2>
+  </div>
+
+  <ion-card color="light">
+    <ion-card-content>
+      <p><strong>Device Status:</strong> {{ devicePlatform | uppercase }}</p>
+      <p><strong>DineBux Partner:</strong> <ion-badge color="secondary">{{ myExternalId }}</ion-badge></p>
+      <hr/>
+      <p><strong>OneSignal Push ID:</strong></p>
+      <p style="user-select: all; background: #e0e0e0; padding: 8px; border-radius: 5px; font-family: monospace;">
+        {{ oneSignalPlayerId }}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <div style="margin-top: 30px; padding: 0 10px;">
+    <ion-button expand="block" color="primary" (click)="showDashboardGuide()">
+      <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+      How to Send Test Push?
+    </ion-button>
+
+    <ion-button expand="block" color="success" style="margin-top: 15px;" (click)="sendNotificationToAll()">
+      <ion-icon name="notifications-outline" slot="start"></ion-icon>
+      Send Notification to All
+    </ion-button>
+  </div>
+</ion-content>

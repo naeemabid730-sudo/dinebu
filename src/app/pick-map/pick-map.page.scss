@@ -1,0 +1,82 @@
+.map-header {
+  background: white; padding: 15px;
+  .header-top {
+    display: flex; align-items: center; gap: 10px;
+    ion-icon { font-size: 24px; color: #333; }
+    .search-bar {
+      flex: 1; background: #f4f4f4; border-radius: 15px; height: 45px;
+      display: flex; align-items: center; padding: 0 15px;
+      input { border: none; background: transparent; width: 100%; outline: none; margin-left: 8px; }
+    }
+  }
+}
+
+.map-view {
+  height: 100%; width: 100%; z-index: 1;
+}
+
+.address-card {
+  position: absolute; bottom: 0; width: 100%; background: white;
+  border-radius: 25px 25px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+  padding: 20px; z-index: 10;
+  
+  .drag-handle { width: 40px; height: 4px; background: #ddd; border-radius: 10px; margin: 0 auto 15px; }
+  
+  .loc-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 15px;
+    h3 { margin: 0; font-size: 16px; font-weight: 700; color: #333; }
+  }
+
+  .section-label { font-size: 10px; font-weight: 800; color: #999; margin-top: 15px; letter-spacing: 1px; }
+
+  .label-group {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px;
+    button {
+      height: 40px; border-radius: 10px; border: 1px solid #eee; background: white;
+      font-size: 11px; font-weight: 600; display: flex; flex-direction: column; 
+      align-items: center; justify-content: center; gap: 2px;
+      &.active { background: #e74c3c; color: white; border-color: #e74c3c; }
+      ion-icon { font-size: 16px; }
+    }
+  }
+
+  .input-wrapper {
+    background: #f9f9f9; padding: 12px; border-radius: 12px; margin-top: 10px;
+    input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; }
+  }
+
+  .save-button {
+    width: 100%; height: 50px; background: #e74c3c; color: white;
+    border-radius: 15px; margin-top: 20px; font-weight: 800; border: none;
+    box-shadow: 0 8px 15px rgba(231, 76, 60, 0.3);
+  } 
+
+}
+.save-button, .save-button-modal {
+  // Purani CSS...
+  
+  &:disabled {
+    background: #ccc !important; // Grey color
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none !important;
+  }
+} 
+.save-button-modal {
+  background-color: #b30000; /* Dark Red color */
+  color: #ffffff;            /* Pure White text */
+  width: 100%;               /* Poori width cover karega */
+  padding: 15px;             /* Button ko thoda mota (padding) karne ke liye */
+  border-radius: 12px;       /* Corners ko round karne ke liye */
+  font-size: 16px;           /* Text size */
+  font-weight: 700;          /* Text ko bold karne ke liye */
+  border: none;              /* Faltu border hatane ke liye */
+  margin-top: 15px;          /* Oopar se thoda gap */
+  cursor: pointer;
+  transition: background 0.3s ease; /* Smooth color change */
+
+  &:active {
+    background-color: #8b0000; /* Click karne par thoda aur dark red hoga */
+    transform: scale(0.98);    /* Click karne par thoda sa dabega */
+  }
+}

@@ -1,0 +1,40 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+    <div class="title">Delivery Location</div>
+    <div style="width: 24px;"></div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="map-wrapper">
+    <div id="mapId"></div>
+    <!-- Center Marker -->
+    <div class="marker-fixed">
+      <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="pin">
+    </div>
+    <button class="locate-me" (click)="getCurrentLocation()">
+      <ion-icon name="locate-outline"></ion-icon>
+    </button>
+  </div>
+
+  <div class="address-sheet">
+    <div class="location-info">
+      <ion-icon name="location" color="danger"></ion-icon>
+      <div class="text">
+        <h3>{{ cityLabel || 'Pakistan' }}</h3>
+        <p>{{ addressDetails.address || 'Locating...' }}</p>
+      </div>
+    </div>
+
+    <div class="input-form">
+      <div class="input-box">
+        <ion-icon name="business-outline"></ion-icon>
+        <input type="text" placeholder="House / Flat No." [(ngModel)]="addressDetails.flatNo">
+      </div>
+      <button class="confirm-btn" [disabled]="!isFormValid()" (click)="goToPayment()">
+        Confirm Address
+      </button>
+    </div>
+  </div>
+</ion-content>

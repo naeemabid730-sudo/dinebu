@@ -1,0 +1,368 @@
+/* --- Global Background --- */
+.bg-light {
+  --background: #f4f5f8;
+}
+
+/* --- Header Styling --- */
+.custom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eb445a; 
+  padding: 15px 15px 25px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 0 4px 15px rgba(235, 68, 90, 0.4);
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  ion-icon { color: #fff; font-size: 22px; }
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.right-space { width: 40px; }
+
+/* --- Container & Cards --- */
+.checkout-container {
+  padding: 15px;
+  margin-top: -15px; 
+}
+
+.modern-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    ion-icon { color: #eb445a; font-size: 1.3rem; }
+  }
+}
+
+/* --- Order Type Buttons --- */
+.type-selector {
+  display: flex;
+  gap: 12px;
+  button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    ion-icon { font-size: 1.2rem; }
+    &.active {
+      background: rgba(235, 68, 90, 0.1); 
+      color: #eb445a;
+      border: 1px solid #eb445a;
+    }
+  }
+}
+
+/* --- Date/Time Buttons --- */
+.datetime-buttons {
+  display: flex;
+  gap: 12px;
+  .dt-btn {
+    flex: 1;
+    padding: 14px;
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #333;
+    ion-icon { color: #eb445a; font-size: 1.2rem; }
+    span { font-weight: 600; font-size: 0.9rem; }
+  }
+}
+
+/* --- Input Fields --- */
+.input-form {
+  .input-box {
+    background: #f8f9fa;
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    ion-icon { color: #999; font-size: 1.2rem; }
+    
+    input { 
+      border: none; 
+      background: transparent; 
+      width: 100%; 
+      outline: none; 
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #333;
+      &::placeholder { color: #aaa; font-weight: 400; }
+    }
+
+    &.area-selector {
+      background: rgba(235, 68, 90, 0.05);
+      border-color: rgba(235, 68, 90, 0.2);
+      .loc-icon { color: #eb445a; }
+      .dropdown-icon { position: absolute; right: 15px; color: #eb445a; }
+    }
+  }
+}
+
+/* --- Bill Summary --- */
+.summary-card {
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #555;
+    .item-name { font-weight: 500; }
+    .price { font-weight: 600; color: #333; }
+  }
+  .divider { height: 1px; background: dashed 1px #ddd; margin: 15px 0; }
+  .total {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 0;
+    .total-amount { color: #eb445a; }
+  }
+}
+
+/* --- ✅ PERFECTLY CENTERED MODALS (Date/Time/Area) --- */
+.center-modal {
+  --width: 330px;        
+  --height: 420px;        
+  --border-radius: 20px;
+  --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+}
+
+.area-modal {
+  --width: 320px;        
+  --height: 450px;        
+  --border-radius: 20px;
+  --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+
+  ion-header ion-toolbar {
+    --background: #f8f9fa;
+    --color: #000;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+/* --- SUCCESS OVERLAY --- */
+.success-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.75); 
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+
+  .success-card {
+    background: white;
+    width: 88%;
+    max-width: 340px;
+    padding: 35px 25px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+    .icon-wrapper {
+      width: 80px; height: 80px;
+      background: rgba(45, 211, 111, 0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      ion-icon { font-size: 45px; color: #2dd36f; }
+    }
+
+    h2 { font-weight: 800; font-size: 1.4rem; color: #222; margin-bottom: 8px; }
+    .order-id { color: #666; font-size: 0.95rem; margin-bottom: 15px; span { font-weight: 700; color: #eb445a; } }
+    .status-text { color: #777; font-size: 0.9rem; line-height: 1.4; margin-bottom: 20px; }
+
+    .success-bill {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #444;
+      border: 1px dashed #ccc;
+      strong { color: #000; font-size: 1.1rem; }
+    }
+
+    .home-btn {
+      background: #eb445a; 
+      color: white; border: none; padding: 16px; border-radius: 14px;
+      font-weight: 700; font-size: 1rem; width: 100%;
+      box-shadow: 0 6px 15px rgba(235, 68, 90, 0.3);
+      &:active { transform: scale(0.97); }
+    }
+  }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- FOOTER BUTTON --- */
+.footer-container {
+  padding: 15px 20px 25px;
+  background: white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+
+  .place-order-btn {
+    width: 100%; height: 58px; border-radius: 16px; background: #eb445a; 
+    color: white; font-size: 1.1rem; display: flex; justify-content: space-between;
+    align-items: center; padding: 0 20px; border: none;
+    box-shadow: 0 6px 20px rgba(235, 68, 90, 0.35);
+    .btn-text { font-weight: 700; letter-spacing: 0.5px; }
+    .total-price {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px; border-radius: 10px; font-size: 0.95rem; font-weight: 700;
+      display: flex; align-items: center; gap: 5px;
+    }
+    &:active { transform: scale(0.97); }
+  }
+}
+.checkout-item-list {
+  margin-top: 10px;
+
+  .checkout-item-card {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+
+    .item-img-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f9f9f9;
+      margin-right: 12px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .item-info {
+      flex: 1;
+      .name {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #333;
+      }
+      .qty-price {
+        margin: 2px 0 0;
+        font-size: 0.8rem;
+        color: #777;
+      }
+    }
+
+    .item-total {
+      font-weight: 700;
+      color: #e41e3f; // Aapka red theme color
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.bill-details {
+  margin-top: 10px;
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+
+    &.total-bold {
+      margin-top: 10px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #000;
+      .total-amount {
+        color: #e41e3f;
+      }
+    }
+  }
+} 
+.success-screen {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: white; display: flex; align-items: center; justify-content: center;
+  z-index: 999; text-align: center; padding: 20px;
+
+  .success-content {
+    ion-icon { font-size: 80px; color: #ff4d4d; }
+    h2 { font-size: 24px; font-weight: bold; margin: 20px 0 10px; }
+    p { color: #666; margin-bottom: 30px; }
+
+    .pay-now-btn {
+      width: 100%; padding: 15px; border-radius: 12px;
+      background: #ff4d4d; color: white; font-weight: bold;
+      border: none; font-size: 16px; margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+    }
+
+    .home-link {
+      background: transparent; color: #ff4d4d; border: none;
+      font-weight: 600; text-decoration: underline;
+    }
+  }
+}

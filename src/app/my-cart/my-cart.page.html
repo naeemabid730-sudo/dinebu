@@ -1,0 +1,102 @@
+<ion-content class="cart-page">
+  <div class="header-container">
+    <div class="header-main">
+      <div class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </div>
+      <h1 class="title">My Cart</h1>
+      <span class="clear-all" (click)="clearCart()" *ngIf="cartItems.length > 0">Clear All</span>
+    </div>
+  </div>
+
+  <div class="cart-list">
+    <div class="cart-card" *ngFor="let item of cartItems; let i = index">
+      <!-- Trash Icon for Removal -->
+      <div class="delete-btn" (click)="confirmRemove(item)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </div>
+
+      <div class="img-container" [ngClass]="'grad-' + (i % 4)">
+        <img [src]="item.img || item.image" class="item-img">
+      </div>
+      
+      <div class="item-details">
+        <h3 class="product-name">{{item.name}}</h3>
+        <p class="product-price">Rs {{item.price}}</p>
+        
+        <!-- Quantity Control -->
+        <div class="qty-wrapper">
+          <div class="qty-control">
+            <button class="qty-btn" (click)="decrease(item)">-</button>
+            <span class="qty-val">{{item.qty}}</span>
+            <button class="qty-btn" (click)="increase(item)">+</button>
+          </div>
+          <span class="free-badge" *ngIf="item.isFreeItemAdded">Gift Added! 🎉</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-cart" *ngIf="cartItems.length === 0">
+      <div class="empty-circle">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+      </div>
+      <h2>Cart is Empty</h2>
+      <p>Aapne abhi tak kuch order nahi kiya.</p>
+      <button class="shop-btn" (click)="goToPage('/menu2')">Order Now</button>
+    </div>
+
+    <!-- Bill Summary -->
+    <div class="summary-section" *ngIf="cartItems.length > 0">
+      <div class="coupon-card">
+        <input type="text" [(ngModel)]="couponCode" placeholder="Enter Promo Code">
+        <button (click)="applyCoupon()">Apply</button>
+      </div>
+
+      <div class="total-card">
+        <div class="bill-row">
+          <span>Subtotal</span>
+          <span>Rs {{ subtotal }}</span>
+        </div>
+        <div class="bill-row">
+          <span>Delivery Charges</span>
+          <span>Rs {{ deliveryFee }}</span>
+        </div>
+        <hr class="divider">
+        <div class="bill-row total">
+          <span>Total Payable</span>
+          <span>Rs {{ subtotal + deliveryFee }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-bar" *ngIf="cartItems.length > 0">
+    <button class="pay-btn" (click)="proceedToCheckout()">
+      Checkout Now
+    </button>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="bottom-nav">
+    <div class="nav-item" (click)="goToPage('/menu')">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+    <div class="nav-item" (click)="goToPage('/menu2')">
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </div>
+    <div class="nav-item active">
+      <div class="cart-pill">
+        <ion-icon name="bag-handle"></ion-icon>
+        <span *ngIf="cartItems.length > 0">{{cartItems.length}}</span>
+      </div>
+    </div>
+    <div class="nav-item" (click)="goToPage('/order-status')">
+      <ion-icon name="receipt-outline"></ion-icon>
+    </div>
+    <div class="nav-item" (click)="goToPage('/profile')">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+  </div>
+</ion-footer>

@@ -1,0 +1,159 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="danger">
+    <ion-title>Admin Panel</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToPage('/profile')">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="danger">
+    <ion-segment [(ngModel)]="currentTab" color="light">
+      <ion-segment-button value="overview">
+        <ion-label>Overview</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="users">
+        <ion-label>Users</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="broadcast">
+        <ion-label>Broadcast</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <div *ngIf="currentTab === 'overview'">
+    <ion-grid class="stats-grid">
+      <ion-row>
+        <ion-col size="6">
+          <div class="stat-card gradient-green">
+            <div class="icon-box"><ion-icon name="wallet-outline"></ion-icon></div>
+            <p>Total Revenue</p>
+            <h3>Rs. {{ totalRevenue | number }}</h3>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="stat-card gradient-blue">
+            <div class="icon-box"><ion-icon name="trending-up-outline"></ion-icon></div>
+            <p>Est. Profit (30%)</p>
+            <h3>Rs. {{ estimatedProfit | number }}</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="section-header">
+      <h4>Recent Live Orders</h4>
+      <ion-badge color="danger" *ngIf="pendingOrdersCount > 0">{{ pendingOrdersCount }} New</ion-badge>
+    </div>
+    
+    <ion-list class="custom-list">
+      <ion-item *ngFor="let order of recentOrders" lines="none" class="order-item" button (click)="viewOrderDetails(order)">
+        <div class="order-icon" slot="start" [ngClass]="order.status === 'Pending' ? 'bg-warning' : 'bg-success'">
+          <ion-icon name="fast-food-outline"></ion-icon>
+        </div>
+        <ion-label>
+          <h2>{{ order.customerName || 'Customer' }} <span class="order-id">#{{ order.orderId }}</span></h2>
+          <p>{{ order.itemsCount || order.items?.length || 0 }} Items • Rs. {{ order.totalAmount }}</p>
+          <p class="order-loc"><ion-icon name="location-outline"></ion-icon> {{ order.address }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="order.status === 'Pending' ? 'warning' : 'success'">
+          {{ order.status }}
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="currentTab === 'users'">
+    <div class="section-header">
+      <h4>Registered Users</h4>
+    </div>
+    <ion-list class="custom-list">
+      <ion-item *ngFor="let user of allUsers" lines="none" class="order-item">
+        <div class="order-icon bg-blue" slot="start">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <ion-label>
+          <h2>{{ user.name || 'No Name' }}</h2>
+          <p><ion-icon name="mail-outline"></ion-icon> {{ user.email }}</p>
+          <p class="order-loc"><ion-icon name="location-outline"></ion-icon> {{ user.address || 'Address not provided' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="currentTab === 'broadcast'" class="ion-padding">
+    <div class="stat-card gradient-blue" style="margin-bottom: 20px;">
+      <h3>Send Notification to All Users</h3>
+      <p>Ye message un tamam logon ko jayega jinhone app install ki hai.</p>
+    </div>
+
+    <ion-item class="input-item">
+      <ion-label position="stacked">Notification Title</ion-label>
+      <ion-input [(ngModel)]="broadcastTitle" placeholder="E.g. Weekend Special Deal!"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item" style="margin-top: 15px;">
+      <ion-label position="stacked">Message Body</ion-label>
+      <ion-textarea [(ngModel)]="broadcastMessage" rows="4" placeholder="Enter message here..."></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" color="danger" style="margin-top: 20px;" (click)="sendBroadcast()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Send to All Users
+    </ion-button>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()" initialBreakpoint="0.85" [breakpoints]="[0, 0.85, 1]">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Order Details</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding" *ngIf="selectedOrder">
+        <div class="receipt-card">
+          <h2 class="text-center">Order #{{ selectedOrder.orderId }}</h2>
+          <div class="divider"></div>
+          
+          <div class="info-group">
+            <p><strong>Name:</strong> {{ selectedOrder.customerName }}</p>
+            <p><strong>Phone:</strong> {{ selectedOrder.phone }}</p>
+            <p><strong>Type:</strong> {{ selectedOrder.orderType | uppercase }}</p>
+            <p><strong>Address:</strong> {{ selectedOrder.address }}</p>
+          </div>
+
+          <div class="divider"></div>
+          <h3>Order Items:</h3>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of selectedOrder.items">
+              <ion-label>
+                <h3>{{ item.name }}</h3>
+                <p>Qty: {{ item.qty }} x Rs. {{ item.price }}</p>
+              </ion-label>
+              <div slot="end">
+                <strong>Rs. {{ item.qty * item.price }}</strong>
+              </div>
+            </ion-item>
+          </ion-list>
+
+          <div class="bill-summary">
+            <div class="summary-row total-row">
+              <span>Grand Total:</span>
+              <span>Rs. {{ selectedOrder.totalAmount }}</span>
+            </div>
+          </div>
+
+          <ion-button expand="block" color="success" class="mt-3" (click)="markAsDelivered(selectedOrder.id)">Mark as Delivered</ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

@@ -1,0 +1,129 @@
+<ion-content [fullscreen]="true" class="profile-page">
+  <!-- Header Section with Mesh Gradient -->
+  <div class="profile-header">
+    <div class="header-top">
+      <h2>Profile</h2>
+    <ion-button fill="clear" (click)="goToPage('/information')" class="info-btn">
+  <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+</ion-button>
+    </div>
+
+    <div class="avatar-section">
+      <div class="avatar-ring">
+        <div class="avatar">
+          <img *ngIf="userPhoto" [src]="userPhoto" class="user-img">
+          <span *ngIf="!userPhoto">
+            {{ name ? name.charAt(0).toUpperCase() : 'U' }}
+          </span>
+        </div>
+        <div class="edit-badge-modern" (click)="goToPage('/edit-profile')">
+          <ion-icon name="camera"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-meta-modern">
+      <h3>{{ name || 'Guest User' }}</h3>
+      <div class="email-chip">
+        <ion-icon name="mail-outline"></ion-icon>
+        <span>{{ email || 'No email provided' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Body -->
+  <div class="container-main">
+    <!-- Group 1: Account -->
+    <div class="section-label">Account Settings</div>
+    <div class="info-card-modern">
+      <div class="row-modern" (click)="goToPage('/order-status')">
+        <div class="icon-box red"><ion-icon name="bag-handle"></ion-icon></div>
+        <div class="text-group">
+          <div class="main-text">My Orders</div>
+          <div class="sub-text">History & active tracking</div>
+        </div>
+        <div class="badge-new">5 Active</div>
+        <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+      </div>
+
+      <div class="row-modern" (click)="goToPage('/my-addrass')">
+        <div class="icon-box blue"><ion-icon name="location"></ion-icon></div>
+        <div class="text-group">
+          <div class="main-text">My Address</div>
+          <div class="sub-text">Saved delivery locations</div>
+        </div>
+        <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+      </div>
+
+      <div class="row-modern" (click)="goToPage('/edit-profile')">
+        <div class="icon-box green"><ion-icon name="call"></ion-icon></div>
+        <div class="text-group">
+          <div class="main-text">Phone Number</div>
+          <div class="sub-text">{{ phone || 'Add contact' }}</div>
+        </div>
+        <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+      </div>
+
+      <!-- 🔔 Notification Row -->
+      <div class="row-modern" (click)="goToPage('/notification-test')">
+        <div class="icon-box purple"><ion-icon name="notifications"></ion-icon></div>
+        <div class="text-group">
+          <div class="main-text">Notifications</div>
+          <div class="sub-text">Manage push notifications</div>
+        </div>
+        <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+      </div>
+
+    </div>
+
+    <!-- Group 2: Support -->
+    <div class="section-label">Legal & Info</div>
+    <div class="info-card-modern">
+      <div class="row-modern" (click)="openLink('privacy')">
+        <div class="icon-box gray"><ion-icon name="shield-checkmark"></ion-icon></div>
+        <div class="text-group">
+          <div class="main-text">Privacy Policy</div>
+        </div>
+        <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+      </div>
+      <div class="row-modern" (click)="openLink('terms')">
+        <div class="icon-box gray"><ion-icon name="document-text"></ion-icon></div>
+        <div class="text-group">
+          <div class="main-text">Terms of Service</div>
+        </div>
+        <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="action-grid">
+      <button class="glass-btn logout" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Logout</span>
+      </button>
+      <button class="glass-btn delete" (click)="deleteAccount()">
+        <ion-icon name="trash-outline"></ion-icon>
+        <span>Delete</span>
+      </button>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="modern-tab-bar">
+    <div class="tab-item" (click)="goToPage('/menu')"><ion-icon name="home-outline"></ion-icon></div>
+    <div class="tab-item" (click)="goToPage('/menu2')"><ion-icon name="restaurant-outline"></ion-icon></div>
+    <div class="tab-item" (click)="goToPage('/my-cart')"><ion-icon name="bag-outline"></ion-icon></div>
+    <div class="nav-item" (click)="goToPage('/order-status')">
+      <ion-icon name="receipt-outline"></ion-icon>
+    </div>
+    <div class="tab-item active">
+      <div class="active-pill">
+        <ion-icon name="person"></ion-icon>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+</ion-footer>

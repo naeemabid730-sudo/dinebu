@@ -1,0 +1,70 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+    <div class="title">Delivery Options</div>
+    <div style="width: 24px;"></div>
+  </div>
+</ion-header>
+
+<ion-content class="bg-light">
+  <div class="shipping-container">
+    
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step active">
+        <div class="circle">1</div>
+        <span>TIME</span>
+      </div>
+      <div class="line"></div>
+      <div class="step" (click)="goToAddress()">
+        <div class="circle">2</div>
+        <span>ADDRESS</span>
+      </div>
+      <div class="line"></div>
+      <div class="step" (click)="goToPayment()">
+        <div class="circle">3</div>
+        <span>PAYMENT</span>
+      </div>
+    </div>
+
+    <div class="options-list">
+      <!-- 1. Express Delivery -->
+      <div class="shipping-card" 
+           [class.selected]="selectedMethod === 'express'"
+           (click)="selectMethod('express')">
+        <div class="card-header">
+          <h3>Express Delivery</h3>
+          <ion-badge color="danger">Fastest</ion-badge>
+        </div>
+        <p>Garman-garam khana 20-30 mins mein aapke darwaze par.</p>
+      </div>
+
+      <!-- 2. Standard Delivery -->
+      <div class="shipping-card" 
+           [class.selected]="selectedMethod === 'standard'"
+           (click)="selectMethod('standard')">
+        <h3>Standard Delivery</h3>
+        <p>Normal delivery time (45-60 mins). No extra charges.</p>
+      </div>
+
+      <!-- 3. Schedule for Later (Nominated) -->
+      <div class="shipping-card" 
+           [class.selected]="selectedMethod === 'schedule'"
+           (click)="selectMethod('schedule')">
+        <h3>Schedule for Later</h3>
+        <p>Abhi order karein aur apni marzi ke time par receive karein.</p>
+        
+        <!-- Agar schedule select ho to time dikhayein -->
+        <ion-datetime-button *ngIf="selectedMethod === 'schedule'" datetime="datetime"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="datetime" presentation="time"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </div>
+    </div>
+
+    <button class="next-btn" (click)="goToNext()">Confirm & Continue</button>
+
+  </div>
+</ion-content>

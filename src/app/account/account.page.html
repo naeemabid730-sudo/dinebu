@@ -1,0 +1,160 @@
+<ion-content [fullscreen]="true">
+  <div class="login-wrapper">
+
+    <!-- ===================== OTP SCREEN ===================== -->
+    <div *ngIf="otpSent">
+      <div class="logo-area">
+        <div class="logo-circle">
+          <img src="../../assets/q1.png" alt="Logo">
+        </div>
+      </div>
+
+      <h2>Verify OTP</h2>
+      <p class="subtitle">6-digit code check karein</p>
+
+      <div class="otp-info">
+        <p>OTP bheja gaya hai: <b>{{ email }}</b></p>
+        <p style="font-size: 12px; color: #888;">⏳ OTP 5 minute mein expire ho jayega</p>
+      </div>
+
+      <div class="form-section">
+        <div class="input-group">
+          <ion-label class="input-label">6-Digit OTP</ion-label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input
+              type="number"
+              [(ngModel)]="otp"
+              placeholder="Enter OTP code"
+              maxlength="6">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Verify & Login Button -->
+        <ion-button expand="block" class="login-btn" (click)="verifyOTP()" [disabled]="isLoading">
+          <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
+          <span *ngIf="!isLoading">✅ Verify & Login</span>
+        </ion-button>
+
+        <!-- Resend OTP -->
+        <div style="text-align: center; margin-top: 14px;">
+          <span *ngIf="resendCooldown > 0" style="color: #888; font-size: 14px;">
+            Resend OTP {{ resendCooldown }}s baad milega
+          </span>
+          <span
+            *ngIf="resendCooldown === 0"
+            (click)="resendOTP()"
+            style="color: #4CAF50; font-size: 14px; cursor: pointer; font-weight: 600;">
+            🔄 Dobara OTP Bhejo
+          </span>
+        </div>
+
+        <p class="back-link" (click)="goBackToLogin()">← Wapas Login par jao</p>
+      </div>
+    </div>
+
+    <!-- ===================== LOGIN SCREEN ===================== -->
+    <div *ngIf="!otpSent">
+
+      <div class="logo-area">
+        <div class="logo-circle">
+          <img src="../../assets/q1.png" alt="Logo">
+        </div>
+      </div>
+
+      <h2>Log in to see more</h2>
+      <p class="subtitle">Welcome back! Please enter your details</p>
+
+      <div class="form-section">
+
+        <!-- Email -->
+        <div class="input-group">
+          <ion-label class="input-label">Email address</ion-label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input
+              type="email"
+              [(ngModel)]="email"
+              placeholder="Enter your email">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Password Form (toggle) -->
+        <div *ngIf="showPasswordForm">
+          <div class="input-group" style="margin-top: 12px;">
+            <ion-label class="input-label">Password</ion-label>
+            <ion-item lines="none" class="custom-input">
+              <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+              <ion-input
+                [type]="showPassword ? 'text' : 'password'"
+                [(ngModel)]="password"
+                placeholder="Enter your password">
+              </ion-input>
+              <ion-icon
+                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                slot="end"
+                class="eye-icon"
+                (click)="togglePassword()">
+              </ion-icon>
+            </ion-item>
+          </div>
+
+          <!-- Password Login Button -->
+          <ion-button expand="block" class="login-btn" style="margin-top: 12px;" [disabled]="isLoading" (click)="handlePasswordLogin()">
+            <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
+            <span *ngIf="!isLoading">🔐 Password se Login</span>
+          </ion-button>
+
+          <p class="back-link" style="text-align:center; margin-top: 8px;" (click)="togglePasswordForm()">← OTP se Login karo</p>
+        </div>
+
+        <!-- OTP Login (default) -->
+        <div *ngIf="!showPasswordForm">
+          <!-- Send OTP Button -->
+          <ion-button expand="block" class="login-btn" style="margin-top: 12px;" [disabled]="isLoading" (click)="handleLogin()">
+            <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
+            <span *ngIf="!isLoading">📧 Send OTP to Email</span>
+          </ion-button>
+
+          <!-- Password se Login ka option -->
+          <p style="text-align: center; margin-top: 12px; font-size: 14px; color: #888; cursor: pointer;" (click)="togglePasswordForm()">
+            🔐 Password se login karna hai?
+          </p>
+        </div>
+
+      </div>
+
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">OR</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <div class="social-section">
+        <ion-button fill="outline" expand="block" class="social-btn google-btn" [disabled]="isLoading" (click)="loginSocial('google')">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Continue with Google
+        </ion-button>
+
+        <ion-button fill="outline" expand="block" class="social-btn facebook-btn" [disabled]="isLoading" (click)="loginSocial('facebook')">
+          <ion-icon name="logo-facebook" slot="start"></ion-icon>
+          Continue with Facebook
+        </ion-button>
+
+       <ion-button fill="outline" expand="block" class="social-btn linkedin-btn" [disabled]="isLoading" (click)="loginSocial('linkedin')">
+  <ion-icon name="logo-linkedin" slot="start"></ion-icon>
+  Continue with LinkedIn
+</ion-button>
+      </div>
+
+      <p class="signup-text">
+        Not yet on platform?
+        <span class="signup-link" (click)="create()">Create account</span>
+      </p>
+
+    </div>
+
+  </div>
+</ion-content>

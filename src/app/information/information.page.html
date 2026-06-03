@@ -1,0 +1,70 @@
+<ion-content class="info-page">
+
+  <div class="header">
+    <ion-icon name="arrow-back-outline" (click)="back()"></ion-icon>
+    <h2>App Information</h2>
+  </div>
+
+  <div class="card">
+
+    <div class="row">
+      <span>App Name</span>
+      <b>{{ appName }}</b>
+    </div>
+
+    <div class="row">
+      <span>App Size</span>
+      <b>{{ appSize }}</b>
+    </div>
+
+    <div class="row">
+      <span>Version</span>
+      <b>{{ version }}</b>
+    </div>
+
+    <div class="row">
+      <span>Build</span>
+      <b>{{ build }}</b>
+    </div>
+
+    <div class="row">
+      <span>Device Model</span>
+      <b>{{ model }}</b>
+    </div>
+
+    <div class="row">
+      <span>Platform</span>
+      <b>{{ platform }}</b>
+    </div>
+
+    <div class="row">
+      <span>OS Version</span>
+      <b>{{ osVersion }}</b>
+    </div>
+
+    <div class="row">
+      <span>Brand</span>
+      <b>{{ manufacturer }}</b>
+    </div>
+
+    <div class="row">
+      <span>Network</span>
+      <b>{{ networkStatus }}</b>
+    </div>
+
+    <div class="row">
+      <span>Network Name</span>
+      <b>{{ networkName }}</b>
+    </div>
+
+  </div>
+
+  <!-- Camera Button -->
+  <button class="camera-btn" (click)="openCamera()">
+    Open Camera
+  </button>
+
+  <!-- Image Preview -->
+  <img *ngIf="capturedImage" [src]="capturedImage" class="preview-img">
+
+</ion-content>

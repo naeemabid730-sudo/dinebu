@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true" class="ion-no-padding">
+
+  <!-- MAP SECTION -->
+  <div class="map-container">
+    <div id="mapId"></div>
+
+    <!-- BACK BUTTON -->
+    <div class="back-btn" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+  </div>
+ 
+  <!-- RIDER CARD -->
+  <div class="rider-card">
+    <div class="rider-header">
+      <img src="https://ui-avatars.com/api/?name=Naeem&background=ff4d4d&color=fff" alt="Rider" />
+      <div class="info">
+        <h3>Naeem</h3>
+        <p>DineBux Delivery Partner</p>
+      </div>
+      <div class="actions">
+        <div class="circle-icon" (click)="makeCall('03001234567')">
+          <ion-icon name="call-outline"></ion-icon>
+        </div>
+        <div class="circle-icon" (click)="openChat()">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- ETA BOX -->
+    <div class="eta-box">
+      <div class="time">
+        <span>Arriving in</span>
+        <h4>10 - 12 Mins</h4>
+      </div>
+      <div class="status" (click)="showStatusDetail()">
+        On The Way
+      </div>
+    </div>
+  </div>
+
+</ion-content>

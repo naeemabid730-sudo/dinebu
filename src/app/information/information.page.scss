@@ -1,0 +1,65 @@
+.info-page {
+  --background: #f5f6fa;
+}
+
+.header {
+  background: linear-gradient(135deg, #ff4d4d, #d63031);
+  color: white;
+  padding: 40px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  ion-icon {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.card {
+  margin: 20px;
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+
+  span {
+    color: #666;
+  }
+
+  b {
+    color: #222;
+  }
+}
+
+
+.camera-btn {
+  width: 90%;
+  margin: 20px auto;
+  display: block;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #ff6b00;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.preview-img {
+  width: 90%;
+  margin: 15px auto;
+  display: block;
+  border-radius: 14px;
+}

@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="toolbar">
+    <div class="top-bar">
+      <ion-button fill="clear" (click)="goBack()" class="icon-btn">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+
+      <div class="search-container">
+        <ion-icon name="search-outline"></ion-icon>
+        <input 
+          type="text" 
+          placeholder="Search products..." 
+          [(ngModel)]="searchQuery" 
+          (input)="onSearchChange($event)"
+        />
+        <ion-icon *ngIf="searchQuery" name="close-circle" (click)="clearSearch()" class="close-icon"></ion-icon>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="list-container">
+    <div class="card" *ngFor="let item of filteredItems; let i = index" [style.--index]="i" (click)="goToDetails(item)">
+      
+      <div class="img-wrapper">
+        <img [src]="item.image" />
+      </div>
+
+      <div class="info">
+        <h3>{{item.name}}</h3>
+        <p *ngIf="item.desc">{{item.desc}}</p>
+      </div>
+
+      <div class="price-tag">
+        <span class="currency">Rs</span>
+        <span class="amount">{{item.price}}</span>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

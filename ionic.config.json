@@ -1,0 +1,8 @@
+{
+  "name": "dinebu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone",
+  "defaultBrowser": "chrome"
+}

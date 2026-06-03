@@ -1,0 +1,126 @@
+<ion-header class="ion-no-border">
+  <div class="map-header">
+    <div class="header-top">
+      <ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
+      <div class="search-bar">
+        <ion-icon name="search-outline"></ion-icon>
+        <input type="text" placeholder="Search in Pakpattan...">
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content scrollY="false">
+  <div id="map" class="map-view"></div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-bottom: 340px;">
+    <ion-fab-button color="light" (click)="getCurrentLocation()">
+      <ion-icon name="locate" color="danger"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="address-card">
+    <div class="drag-handle"></div>
+    <div class="card-body">
+      <div class="loc-header">
+        <ion-icon name="pin" color="danger"></ion-icon>
+        <h3>{{ currentLocationName || 'Searching Area...' }}</h3>
+      </div>
+      
+      <p class="section-label">FULL ADDRESS</p>
+      <div class="input-wrapper">
+        <input type="text" [(ngModel)]="tempDetail" placeholder="Fetching location...">
+      </div>
+
+      <button class="save-button" 
+        (click)="openAddressModal()" 
+        [disabled]="!tempDetail || tempDetail.trim() === ''">
+  Confirm Location
+</button>
+
+<button class="save-button-modal" 
+        (click)="saveFinalAddress()" 
+        [disabled]="!tempDetail || tempDetail.trim() === ''">
+  Save Address
+</button>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" initialBreakpoint="0.85" [breakpoints]="[0, 0.85, 1]">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Add New Address</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isModalOpen = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding modal-content">
+        <p class="section-label">SELECT LABEL</p>
+        <div class="label-group">
+          <button [class.active]="tempTitle === 'Home'" (click)="tempTitle = 'Home'">Home</button>
+          <button [class.active]="tempTitle === 'Work'" (click)="tempTitle = 'Work'">Work</button>
+          <button [class.active]="tempTitle === 'Other'" (click)="tempTitle = 'Other'">Other</button>
+        </div>
+
+        <div class="full-form">
+          <ion-item lines="outline">
+            <ion-label position="stacked">Address Name (Home/Office)</ion-label>
+            <ion-input [(ngModel)]="tempTitle"></ion-input>
+          </ion-item>
+
+          <ion-item lines="outline">
+            <ion-label position="stacked">Location / Street</ion-label>
+            <ion-input [(ngModel)]="tempDetail"></ion-input>
+          </ion-item>
+
+          <ion-item lines="outline">
+            <ion-label position="stacked">Apartment / Suite (Optional)</ion-label>
+            <ion-input [(ngModel)]="apartment"></ion-input>
+          </ion-item>
+
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="outline">
+                <ion-label position="stacked">City</ion-label>
+                <ion-input [(ngModel)]="city"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item lines="outline">
+                <ion-label position="stacked">State</ion-label>
+                <ion-input [(ngModel)]="state"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="outline">
+                <ion-label position="stacked">Zip Code</ion-label>
+                <ion-input [(ngModel)]="zipCode"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item lines="outline">
+                <ion-label position="stacked">Country</ion-label>
+                <ion-input [(ngModel)]="country" value="Pakistan"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-item lines="none" class="toggle-item">
+            <ion-label>Set as Default Address</ion-label>
+            <ion-toggle slot="end" [(ngModel)]="isDefault"></ion-toggle>
+          </ion-item>
+          <button class="save-button-modal" (click)="saveFinalAddress()">
+            Save Address
+          </button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal> 
+  
+</ion-content>

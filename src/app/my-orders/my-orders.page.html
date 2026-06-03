@@ -1,0 +1,93 @@
+<ion-content class="orders-page">
+  <div class="header-section">
+    <h1 class="main-title">Order History</h1>
+    <p class="subtitle">Aapke pichle tamam orders ki tafseelat</p>
+  </div>
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="danger"></ion-spinner>
+    <p>Loading your orders...</p>
+  </div>
+
+  <div *ngIf="!isLoading && orders.length === 0" class="ion-text-center ion-padding">
+    <ion-icon name="bag-handle-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
+    <p>Aapne abhi tak koi order nahi kiya.</p>
+    <ion-button fill="clear" color="danger" (click)="goToPage('/menu')">Order Now</ion-button>
+  </div>
+
+  <div class="pro-order-card" *ngFor="let order of orders" (click)="goToOrderDetails(order)">
+    
+    <div class="card-top">
+      <div class="brand-info">
+        <div class="icon-box">
+          <ion-icon name="receipt"></ion-icon>
+        </div>
+        <div class="text-group">
+          <span class="order-id">#ORD-{{order.orderId}}</span>
+          <p class="branch-name">DineBux Main Branch</p>
+        </div>
+      </div>
+      <div class="status-pill" [ngClass]="order.status?.toLowerCase()">
+        {{ order.status }}
+      </div>
+    </div>
+
+    <div class="card-details">
+      <div class="item-row" *ngFor="let item of order.items">
+        <div class="item-main">
+          <h4 class="item-name">{{ item.name }}</h4>
+          <p class="item-meta">Qty: {{ item.qty | number:'2.0' }} • Price: Rs {{ item.price }}/each</p>
+        </div>
+        <div class="item-total-price">Rs {{ item.price * item.qty }}</div>
+      </div>
+
+      <div class="time-stamp">
+        <ion-icon name="calendar-clear-outline"></ion-icon>
+        <span>{{ order.date }} • {{ order.time }}</span>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="bill-info">
+        <span class="label">Total Bill</span>
+        <span class="final-amount">Rs {{ order.total }}</span>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn-track" (click)="trackOrder($event)">
+          <ion-icon name="location-outline"></ion-icon> Track
+        </button>
+        <button class="btn-reorder" (click)="reOrder($event, order)">
+          <ion-icon name="refresh-outline"></ion-icon> Reorder
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="bottom-nav">
+    <div class="nav-item" (click)="goToPage('/menu')">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+
+    <div class="nav-item" (click)="goToPage('/menu2')">
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </div>
+
+    <div class="nav-item" (click)="goToPage('/my-cart')">
+      <ion-icon name="bag-outline"></ion-icon>
+    </div>
+
+    <div class="nav-item active">
+      <div class="menu-pill">
+        <ion-icon name="receipt"></ion-icon>
+        <span>Orders</span>
+      </div>
+    </div>
+
+    <div class="nav-item" (click)="goToPage('/profile')">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+  </div>
+</ion-footer>

@@ -1,0 +1,104 @@
+.custom-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; background: white;
+  ion-icon { font-size: 24px; color: #ff4b2b; }
+  .title { font-size: 17px; font-weight: 700; color: #333; }
+}
+
+.map-wrapper {
+  position: relative;
+  height: 50vh;
+  width: 100%;
+
+  #mapId { height: 100%; width: 100%; z-index: 1; }
+
+  .marker-fixed {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -100%);
+    z-index: 1000; pointer-events: none;
+    display: flex; flex-direction: column; align-items: center;
+    img { width: 40px; height: 40px; }
+    .pin-shadow { 
+      width: 10px; height: 4px; background: rgba(0,0,0,0.2); 
+      border-radius: 50%; margin-top: -2px; 
+    }
+  }
+
+  .locate-me {
+    position: absolute; bottom: 80px; right: 20px;
+    width: 45px; height: 45px; background: white;
+    border-radius: 12px; border: none; z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: #ff4b2b; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+}
+
+.address-sheet {
+  background: white; border-radius: 24px 24px 0 0;
+  margin-top: -40px; position: relative; z-index: 1001;
+  padding: 20px; box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+  min-height: 50vh;
+
+  .drag-handle {
+    width: 40px; height: 4px; background: #e0e0e0;
+    border-radius: 2px; margin: 0 auto 20px;
+  }
+
+  .location-info {
+    display: flex; gap: 12px; margin-bottom: 24px;
+    ion-icon { font-size: 24px; margin-top: 4px; }
+    h3 { margin: 0; font-size: 16px; font-weight: 700; color: #333; }
+    p { margin: 4px 0 0; font-size: 13px; color: #777; line-height: 1.4; }
+  }
+
+  .input-box {
+    display: flex; align-items: center; background: #f5f5f5;
+    padding: 14px; border-radius: 14px; margin-bottom: 20px;
+    ion-icon { color: #ff4b2b; font-size: 20px; margin-right: 12px; }
+    input { border: none; outline: none; background: transparent; width: 100%; font-size: 14px; }
+  }
+
+  .label-selection {
+    span { font-size: 14px; font-weight: 600; color: #333; display: block; margin-bottom: 12px; }
+    .chips {
+      display: flex; gap: 10px; margin-bottom: 30px;
+      .chip {
+        padding: 10px 20px; border-radius: 12px; border: 1.5px solid #eee;
+        display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+        &.active { background: #ff4b2b; color: white; border-color: #ff4b2b; }
+      }
+    }
+  }
+
+  .confirm-btn {
+    width: 100%; padding: 18px; background: #ff4b2b; color: white;
+    border: none; border-radius: 16px; font-size: 16px; font-weight: 700;
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.25);
+    &:disabled { background: #ffbcaf; box-shadow: none; }
+  }
+}
+#mapId { height: 100%; width: 100%; }
+.map-wrapper { position: relative; height: 55vh; width: 100%; }
+
+.marker-fixed {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 1000; pointer-events: none;
+  img { width: 35px; }
+}
+
+.locate-me {
+  position: absolute; bottom: 70px; right: 20px;
+  width: 45px; height: 45px; background: white;
+  border-radius: 50%; z-index: 1000; border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  color: #ff4b2b; font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.address-sheet {
+  background: white; border-radius: 20px 20px 0 0;
+  margin-top: -30px; position: relative; z-index: 1001;
+  padding: 20px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+}

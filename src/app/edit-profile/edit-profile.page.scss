@@ -1,0 +1,326 @@
+.profile-page {
+  --background: #0f0f0f; // Pure dark theme base
+
+  // Header Background with Gradient
+  .header-visual {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+    padding: 45px 15px 30px;
+    
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      .back-btn {
+        --color: #ffffff;
+        margin: 0;
+      }
+      
+      .title {
+        color: white;
+        font-size: 1.25rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  // Main Content Container
+  .content-wrapper {
+    margin-top: -35px;
+    background: #0f0f0f;
+    border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+    padding: 25px 20px;
+    min-height: 80vh;
+  }
+
+  // Profile Picture & Avatar Section
+  .profile-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 35px;
+
+    .avatar-wrapper {
+      position: relative;
+      cursor: pointer;
+      
+      &:active {
+        transform: scale(0.95);
+        transition: 0.2s;
+      }
+      
+      .image-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 3px solid #ff9f43; // DineBux Orange
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1a1a1a;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+
+        .profile-pic {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .initials {
+          font-size: 3rem;
+          color: #ff9f43;
+          font-weight: 800;
+        }
+      }
+
+      .edit-badge {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: #ff9f43;
+        color: #000;
+        padding: 10px;
+        border-radius: 50%;
+        display: flex;
+        box-shadow: 0 4px 12px rgba(255, 159, 67, 0.4);
+        border: 2px solid #0f0f0f;
+
+        ion-icon {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  // Form & Inputs Styling
+  .form-container {
+    .section-title {
+      margin-bottom: 25px;
+      h3 { 
+        color: white; 
+        margin: 0; 
+        font-size: 1.4rem; 
+        font-weight: 700;
+      }
+      p { 
+        color: #777; 
+        font-size: 0.85rem; 
+        margin-top: 6px; 
+      }
+    }
+
+    .custom-field {
+      display: flex;
+      align-items: center;
+      background: #161616;
+      border-radius: 18px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      border: 1px solid #222;
+      transition: border-color 0.3s ease;
+
+      &:focus-within {
+        border-color: #ff9f43;
+      }
+
+      &.textarea-field {
+        align-items: flex-start;
+      }
+
+      .field-icon {
+        color: #ff9f43;
+        font-size: 1.5rem;
+        margin-right: 16px;
+      }
+
+      .input-stack {
+        flex: 1;
+        label {
+          display: block;
+          color: #555;
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          font-weight: 600;
+          letter-spacing: 1.2px;
+          margin-bottom: 2px;
+        }
+        input, textarea {
+          width: 100%;
+          background: transparent;
+          border: none;
+          color: #fff;
+          font-size: 1rem;
+          padding: 4px 0;
+          outline: none;
+          font-family: inherit;
+          &::placeholder { color: #3d3d3d; }
+        }
+        textarea {
+          resize: none;
+        }
+      }
+    }
+  }
+
+  // Action Buttons (Save/Cancel)
+  .button-group {
+    margin-top: 35px;
+    
+    .btn-save {
+      width: 100%;
+      background: #ff9f43;
+      color: #000;
+      padding: 18px;
+      border-radius: 18px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: none;
+      margin-bottom: 15px;
+      box-shadow: 0 12px 24px rgba(255, 159, 67, 0.25);
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 5px 10px rgba(255, 159, 67, 0.2);
+      }
+
+      ion-icon {
+        font-size: 1.3rem;
+      }
+    }
+
+    .btn-cancel {
+      width: 100%;
+      background: transparent;
+      color: #ff4d4d;
+      padding: 12px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Modal & AI Gallery Styling
+.dark-modal {
+  --background: #121212;
+  --height: 90%;
+  --border-radius: 30px 30px 0 0;
+
+  .modal-content {
+    padding-bottom: 30px;
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #222;
+
+      .modal-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .close-btn, .back-icon { 
+        font-size: 1.8rem; 
+        color: #fff; 
+      }
+      .delete-btn { 
+        color: #ff4d4d; 
+        font-size: 1.5rem; 
+      }
+    }
+
+    // AI Search Section
+    .search-container {
+      padding: 15px 20px;
+      
+      .custom-search {
+        --background: #1e1e1e;
+        --color: white;
+        --placeholder-color: #666;
+        --icon-color: #ff9f43;
+        --border-radius: 14px;
+        --padding-start: 12px;
+        margin-bottom: 5px;
+      }
+    }
+
+    // AI Grid (15 items structure)
+    .ai-grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); // 3 images in one row
+      gap: 12px;
+      padding: 10px 20px;
+      max-height: 450px;
+      overflow-y: auto;
+
+      // Custom Scrollbar for Grid
+      &::-webkit-scrollbar { width: 0; }
+
+      .ai-item {
+        aspect-ratio: 1/1; // Perfect Square
+        background: #1a1a1a;
+        border: 2px solid transparent;
+        border-radius: 18px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+
+        &:active {
+          transform: scale(0.9);
+          border-color: #ff9f43;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 14px;
+          object-fit: cover;
+          animation: fadeIn 0.5s ease-in;
+        }
+      }
+    }
+
+    // Default Selection Menu Options
+    .modal-options {
+      padding: 10px 20px;
+      
+      .option-item {
+        display: flex;
+        align-items: center;
+        padding: 18px 0;
+        border-bottom: 1px solid #1a1a1a;
+        
+        &:last-child { border-bottom: none; }
+        
+        &:active { background: rgba(255,255,255,0.03); }
+        
+        ion-icon {
+          font-size: 1.6rem;
+          margin-right: 18px;
+          color: #ff9f43;
+        }
+        span { 
+          font-size: 1.05rem; 
+          color: #fff;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+// Fade In Animation for AI Images
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

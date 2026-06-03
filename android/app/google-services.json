@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "116841893564",
+    "project_id": "dinebu-8e705",
+    "storage_bucket": "dinebu-8e705.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116841893564:android:f0c0ea4dacda1985b0cab9",
+        "android_client_info": {
+          "package_name": "com.dinebu.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116841893564-786he3gvpjjesqd24l7mqbcom0j6t8iu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dinebu.app",
+            "certificate_hash": "8c2f8731958ccd37fab1befd9f4e19a431ec269f"
+          }
+        },
+        {
+          "client_id": "116841893564-8os9cnmjtbtcb4sd0lvfp6nm4d743qtk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx0mBsxMqbaYgBEXc6idb_VeVOHXustug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116841893564-8os9cnmjtbtcb4sd0lvfp6nm4d743qtk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

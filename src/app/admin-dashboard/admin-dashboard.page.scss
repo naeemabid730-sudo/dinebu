@@ -1,0 +1,249 @@
+// Background and Main Container
+ion-content {
+  --background: #f4f6f8;
+}
+
+// Stats Cards (Revenue & Orders)
+.stats-grid {
+  padding: 15px;
+}
+
+.stat-card {
+  padding: 15px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  .icon-box {
+    background: rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+
+    ion-icon {
+      font-size: 1.5rem;
+      color: white;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.9;
+  }
+
+  h3 {
+    margin: 5px 0 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  &.gradient-green { background: linear-gradient(135deg, #2dd36f, #109f4b); }
+  &.gradient-blue { background: linear-gradient(135deg, #3880ff, #1c61da); }
+}
+
+// Section Headers
+.section-header {
+  padding: 10px 15px 0;
+  h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+  }
+}
+
+// Profit/Loss Graph Container
+.chart-box {
+  background: white;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Grid for Admin Controls
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 15px;
+
+  .admin-card {
+    background: white;
+    padding: 20px 15px;
+    border-radius: 18px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f0f0;
+
+    &:active { transform: scale(0.95); }
+
+    .icon-wrapper {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon { font-size: 1.8rem; }
+    }
+
+    .red-tint { background: #fff0f2; color: #eb445a; }
+    .blue-tint { background: #f0f5ff; color: #3880ff; }
+    .green-tint { background: #f0fdf4; color: #2dd36f; }
+    .orange-tint { background: #fff7ed; color: #ff8c00; }
+
+    p {
+      margin: 0;
+      font-weight: 600;
+      color: #444;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Recent Activity List Styling
+.custom-list {
+  background: transparent;
+  padding: 0 15px 20px;
+
+  .order-item {
+    --background: white;
+    --border-radius: 15px;
+    --padding-start: 10px;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    border: 1px solid #eee;
+
+    .order-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+
+      ion-icon { font-size: 1.5rem; color: white; }
+      &.bg-warning { background: #ffc409; }
+      &.bg-success { background: #2dd36f; }
+    }
+
+    h2 {
+      font-weight: bold;
+      color: #222;
+      font-size: 1rem;
+      .order-id { color: #888; font-size: 0.8rem; font-weight: normal; margin-left: 5px; }
+    }
+    
+    p { color: #666; font-size: 0.85rem; margin-top: 2px; }
+    .order-loc { display: flex; align-items: center; font-size: 0.75rem; color: #999; margin-top: 4px;
+      ion-icon { margin-right: 3px; }
+    }
+
+    ion-badge {
+      --padding-start: 12px;
+      --padding-end: 12px;
+      --padding-top: 6px;
+      --padding-bottom: 6px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+  }
+} 
+/* Yahan pehle wali scss add karein (Chart aur stats box wali) */
+
+/* =========== Modal Receipt Styling =========== */
+.receipt-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px dashed #ccc; // Bill jaisa look dene ke liye
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #eb445a;
+    margin-bottom: 10px;
+  }
+
+  .divider {
+    height: 1px;
+    background: #eee;
+    margin: 15px 0;
+  }
+
+  .info-group p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #444;
+
+    strong {
+      color: #222;
+    }
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 15px;
+    color: #333;
+  }
+
+  .bill-summary {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .total-row {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #111;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      margin-top: 5px;
+    }
+  }
+
+  .mt-3 {
+    margin-top: 20px;
+  }
+}
+ion-segment {
+  background: transparent;
+  padding: 5px;
+}
+.bg-blue {
+  background: #3880ff !important;
+}
+.input-item {
+  --background: white;
+  --border-radius: 12px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}

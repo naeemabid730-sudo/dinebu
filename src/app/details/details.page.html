@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <div class="header-nav">
+    <div class="icon-btn" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+    
+    <div class="cart-btn" (click)="goToCart()">
+      <ion-icon name="bag-outline"></ion-icon>
+      <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="!product" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading product details...</p>
+  </div>
+
+  <div *ngIf="product">
+    <div class="image-container">
+      <img [src]="product.image || product.img" alt="product image">
+    </div>
+
+    <div class="details-card">
+      <div class="title-row">
+        <h1>{{ product.name }}</h1>
+        <span class="price">Rs {{ product.price }}</span>
+      </div>
+
+      <p class="category-tag" *ngIf="product.category">
+        {{ product.category }}
+      </p>
+      
+      <p class="description">
+        {{ product.desc || 'Fresh and delicious meal prepared with high-quality ingredients just for you.' }}
+      </p>
+
+      <div class="info-tags">
+        <span *ngIf="product.isBestSeller">🔥 Best Seller</span>
+        <span>⭐ {{ product.rating || '4.8' }} Rating</span>
+        <span>⏰ {{ product.time || '20-30 min' }}</span>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border" *ngIf="product">
+  <div class="footer-action">
+    <div class="quantity-box">
+      <button (click)="decrease()">
+        <ion-icon name="remove-outline"></ion-icon>
+      </button>
+      <span class="qty">{{ quantity }}</span>
+      <button (click)="increase()">
+        <ion-icon name="add-outline"></ion-icon>
+      </button>
+    </div>
+
+    <button class="add-cart-btn" (click)="addToCart()">
+      Add Rs {{ product.price * quantity }}
+    </button>
+  </div>
+</ion-footer>

@@ -1,0 +1,189 @@
+// 1. Main Page Background aur Height
+.orders-page {
+  --background: #f4f6f8;
+
+  &::part(scroll) {
+    padding-bottom: 120px; // Footer ke liye space
+  }
+}
+
+// 2. Header Section
+.header-section {
+  padding: 40px 20px 50px;
+  background: #ff3b3b; // Theme Red
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-bottom: -20px; // Content ko thora upar charhane ke liye
+  z-index: 1;
+
+  .main-title { 
+    font-size: 24px; 
+    font-weight: 800; 
+    color: #ffffff; 
+    margin: 0; 
+  }
+  
+  .subtitle { 
+    font-size: 13px; 
+    color: rgba(255, 255, 255, 0.85); 
+    margin-top: 6px; 
+  }
+}
+
+// 3. Main Content Container
+.content-container {
+  padding: 15px;
+  min-height: 100vh; // Minimum height screen ke barabar
+  position: relative;
+  z-index: 2;
+}
+
+// 4. Professional Order Card
+.pro-order-card {
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: 0.3s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  // Card Top (ID & Status)
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px dashed #f0f0f0;
+
+    .brand-info {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      .icon-box {
+        width: 38px; height: 38px; 
+        background: #fff1f1; color: #ff3b3b;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 10px; 
+        ion-icon { font-size: 18px; }
+      }
+
+      .text-group {
+        .order-id { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+        .branch-name { font-size: 11px; color: #888; display: block; }
+      }
+    }
+
+    .status-pill {
+      font-size: 10px; 
+      font-weight: 800; 
+      padding: 5px 12px; 
+      border-radius: 20px;
+      text-transform: uppercase;
+      
+      &.pending { background: #fff8e1; color: #f57c00; }
+      &.delivered { background: #e8f9ee; color: #27ae60; }
+    }
+  }
+
+  // Card Body (Items & Time)
+  .card-details {
+    padding: 15px;
+
+    .item-row {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+
+      .item-main {
+        .item-name { font-size: 14px; font-weight: 600; color: #333; margin: 0; }
+        .item-meta { font-size: 12px; color: #888; margin-top: 2px; }
+      }
+      .item-total-price { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+    }
+
+    .time-stamp {
+      margin-top: 15px; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px;
+      font-size: 11px; 
+      color: #999;
+      ion-icon { font-size: 14px; }
+    }
+  }
+
+  // Card Footer (Bill & Buttons)
+  .card-footer {
+    background: #fdfdfd;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f9f9f9;
+
+    .bill-info {
+      .label { font-size: 10px; color: #aaa; text-transform: uppercase; }
+      .final-amount { font-size: 16px; font-weight: 800; color: #ff3b3b; display: block; }
+    }
+
+    .action-buttons {
+      display: flex; gap: 8px;
+
+      button {
+        border: none; 
+        padding: 8px 14px; 
+        border-radius: 12px; 
+        font-size: 12px;
+        font-weight: 700; 
+        display: flex; 
+        align-items: center; 
+        gap: 5px;
+        
+        &.btn-track { background: #1a1a1a; color: white; }
+        &.btn-reorder { background: white; color: #ff3b3b; border: 1px solid #ff3b3b; }
+      }
+    }
+  }
+}
+
+// 5. Fixed Bottom Navigation Footer
+ion-footer {
+  background: white;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 70px;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  .nav-item {
+    color: #bbb;
+    transition: 0.3s;
+    
+    ion-icon { font-size: 24px; }
+
+    &.active {
+      .menu-pill {
+        background: #ff3b3b;
+        padding: 10px 18px;
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 8px 20px rgba(255, 59, 59, 0.3);
+
+        ion-icon, span { color: white; }
+        span { font-size: 13px; font-weight: 700; }
+      }
+    }
+  }
+}
