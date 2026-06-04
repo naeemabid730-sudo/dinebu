@@ -12,7 +12,7 @@ import { addIcons } from 'ionicons';
 import {
   logoGoogle, logoFacebook, eyeOutline, eyeOffOutline,
   qrCodeOutline, mailOutline, lockClosedOutline,
-  shieldCheckmarkOutline,logoLinkedin
+  shieldCheckmarkOutline, logoLinkedin
 } from 'ionicons/icons';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -48,15 +48,53 @@ export class AccountPage implements OnInit {
   resendCooldown = 0;
   private resendTimer: any;
 
+  // ========== LinkedIn Config ==========
+  private linkedinClientId = '7884ug1isb9wug';
+  private linkedinRedirectUri = 'https://ravishing-expression-production-393f.up.railway.app';
+
   constructor() {
     addIcons({
       logoGoogle, logoFacebook, eyeOutline, eyeOffOutline,
       qrCodeOutline, mailOutline, lockClosedOutline,
-      shieldCheckmarkOutline,logoLinkedin
+      shieldCheckmarkOutline, logoLinkedin
     });
   }
 
   async ngOnInit() {
+    // LinkedIn OAuth callback handle karo
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const state = urlParams.get('state');
+    const savedState = localStorage.getItem('linkedin_state');
+
+    if (code && state && state === savedState) {
+      this.isLoading = true;
+      try {
+        const response = await fetch(`${this.linkedinRedirectUri}/auth/linkedin/callback?code=${code}&redirect_uri=${encodeURIComponent(this.linkedinRedirectUri)}`);
+        const data = await response.json();
+        if (data.name || data.email) {
+          localStorage.setItem('isAccountCreated', 'true');
+          localStorage.setItem('userName', data.name || 'LinkedIn User');
+          localStorage.setItem('userEmail', data.email || '');
+          localStorage.setItem('userPhoto', data.picture || '');
+        } else {
+          localStorage.setItem('isAccountCreated', 'true');
+          localStorage.setItem('userName', 'LinkedIn User');
+        }
+        localStorage.removeItem('linkedin_state');
+        this.router.navigate(['/home']);
+      } catch (e) {
+        localStorage.setItem('isAccountCreated', 'true');
+        localStorage.setItem('userName', 'LinkedIn User');
+        localStorage.removeItem('linkedin_state');
+        this.router.navigate(['/home']);
+      } finally {
+        this.isLoading = false;
+      }
+      return;
+    }
+
+    // Google redirect result check
     try {
       const result = await this.authService.getGoogleRedirectResult();
       if (result?.user) {
@@ -194,13 +232,24 @@ export class AccountPage implements OnInit {
     this.resendCooldown = 0;
   }
 
-  // ========== GOOGLE / FACEBOOK ==========
+  // ========== GOOGLE / FACEBOOK / LINKEDIN ==========
   async loginSocial(type: string) {
     this.isLoading = true;
+
+    // ✅ LinkedIn Login — r_liteprofile r_emailaddress scope (valid scopes)
+    if (type === 'linkedin') {
+      const state = Math.random().toString(36).substring(7);
+      localStorage.setItem('linkedin_state', state);
+      const scope = encodeURIComponent('r_liteprofile r_emailaddress');
+      const redirectUri = encodeURIComponent(this.linkedinRedirectUri);
+      const linkedinUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${this.linkedinClientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;
+      window.location.href = linkedinUrl;
+      return;
+    }
+
     try {
       if (type === 'google') {
         if (Capacitor.isNativePlatform()) {
-          // ✅ Native Android
           await GoogleAuth.initialize();
           const googleUser: any = await GoogleAuth.signIn();
           localStorage.setItem('isAccountCreated', 'true');
@@ -210,7 +259,6 @@ export class AccountPage implements OnInit {
           this.isLoading = false;
           this.router.navigate(['/profile']);
         } else {
-          // ✅ Web
           const result = await this.authService.loginWithGoogle();
           if (result?.user) {
             localStorage.setItem('isAccountCreated', 'true');
@@ -222,18 +270,13 @@ export class AccountPage implements OnInit {
           }
         }
 
-      } else {
-        // ✅ Facebook Login
+      } else if (type === 'facebook') {
         if (Capacitor.isNativePlatform()) {
-          // ✅ Native Android
           const result = await FacebookLogin.login({
             permissions: ['email', 'public_profile']
           });
-
           if (result.accessToken) {
-            const credential = FacebookAuthProvider.credential(
-              result.accessToken.token
-            );
+            const credential = FacebookAuthProvider.credential(result.accessToken.token);
             const firebaseResult = await signInWithCredential(this.auth, credential);
             localStorage.setItem('isAccountCreated', 'true');
             localStorage.setItem('userName', firebaseResult.user.displayName || 'User');
@@ -245,19 +288,12 @@ export class AccountPage implements OnInit {
             this.isLoading = false;
             alert('❌ Facebook login cancel hua');
           }
-
         } else {
-          // ✅ Web — nonce issue fix
-          try {
-            // Pehle purani auth state clear karo
-            await this.auth.signOut();
-          } catch (e) {}
-
+          try { await this.auth.signOut(); } catch (e) {}
           const provider = new FacebookAuthProvider();
           provider.addScope('email');
           provider.addScope('public_profile');
           provider.setCustomParameters({ auth_type: 'rerequest' });
-
           const result = await signInWithPopup(this.auth, provider);
           localStorage.setItem('isAccountCreated', 'true');
           localStorage.setItem('userName', result.user.displayName || 'User');
