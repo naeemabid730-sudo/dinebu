@@ -11,9 +11,8 @@ const ONESIGNAL_APP_ID = "bb6f5013-9733-4600-a122-dcb6b8eb4100";
 const ONESIGNAL_REST_KEY = "PASTE_YOUR_REST_KEY";
 
 // ========== LinkedIn Config ==========
-const LINKEDIN_CLIENT_ID = "7884ug1isb9wug";
-const LINKEDIN_CLIENT_SECRET = "WPL_AP1.1MhVARd9ifNn1cAk.06FQWg==";
-const REDIRECT_URI = "https://ravishing-expression-production-393f.up.railway.app";
+const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID;
+const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET;const REDIRECT_URI = "https://ravishing-expression-production-393f.up.railway.app";
 
 // ========== Health Check ==========
 app.get("/", (req, res) => {
