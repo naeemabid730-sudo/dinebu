@@ -22,6 +22,7 @@ import { Capacitor } from '@capacitor/core';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { FacebookLogin } from '@capacitor-community/facebook-login';
 import { AuthService } from '../services/auth';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-account',
@@ -48,9 +49,10 @@ export class AccountPage implements OnInit {
   resendCooldown = 0;
   private resendTimer: any;
 
-  // ========== LinkedIn Config ==========
-  private linkedinClientId = '7884ug1isb9wug';
-  private linkedinRedirectUri = 'https://ravishing-expression-production-393f.up.railway.app';
+  // ========== LinkedIn Config (environment se) ==========
+  private linkedinClientId = environment.linkedIn.clientId;
+  private linkedinClientSecret = environment.linkedIn.clientSecret;
+  private linkedinRedirectUri = environment.linkedIn.redirectUri;
 
   constructor() {
     addIcons({
@@ -61,7 +63,6 @@ export class AccountPage implements OnInit {
   }
 
   async ngOnInit() {
-    // LinkedIn OAuth callback handle karo
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const state = urlParams.get('state');
@@ -70,7 +71,9 @@ export class AccountPage implements OnInit {
     if (code && state && state === savedState) {
       this.isLoading = true;
       try {
-        const response = await fetch(`${this.linkedinRedirectUri}/auth/linkedin/callback?code=${code}&redirect_uri=${encodeURIComponent(this.linkedinRedirectUri)}`);
+        const response = await fetch(
+          `https://ravishing-expression-production-393f.up.railway.app/auth/linkedin/callback?code=${code}&redirect_uri=${encodeURIComponent(this.linkedinRedirectUri)}`
+        );
         const data = await response.json();
         if (data.name || data.email) {
           localStorage.setItem('isAccountCreated', 'true');
@@ -236,11 +239,11 @@ export class AccountPage implements OnInit {
   async loginSocial(type: string) {
     this.isLoading = true;
 
-    // ✅ LinkedIn Login — r_liteprofile r_emailaddress scope (valid scopes)
+    // ✅ LinkedIn Login — scope fix kiya
     if (type === 'linkedin') {
       const state = Math.random().toString(36).substring(7);
       localStorage.setItem('linkedin_state', state);
-      const scope = encodeURIComponent('r_liteprofile r_emailaddress');
+      const scope = encodeURIComponent('openid profile email'); // ✅ Fixed: purane deprecated scopes replace kiye
       const redirectUri = encodeURIComponent(this.linkedinRedirectUri);
       const linkedinUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${this.linkedinClientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;
       window.location.href = linkedinUrl;
