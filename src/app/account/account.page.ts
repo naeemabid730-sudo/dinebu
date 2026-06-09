@@ -64,6 +64,34 @@ export class AccountPage implements OnInit {
 
   async ngOnInit() {
     const urlParams = new URLSearchParams(window.location.search);
+
+    // ✅ LinkedIn callback handle - jab backend redirect kare with params
+    const linkedinName = urlParams.get('linkedin_name');
+    const linkedinEmail = urlParams.get('linkedin_email');
+    const linkedinPhoto = urlParams.get('linkedin_photo');
+    const linkedinError = urlParams.get('linkedin_error');
+
+    if (linkedinError) {
+      alert('❌ LinkedIn login fail hua: ' + decodeURIComponent(linkedinError));
+      // URL clean karo
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    if (linkedinName || linkedinEmail) {
+      this.isLoading = true;
+      localStorage.setItem('isAccountCreated', 'true');
+      localStorage.setItem('userName', decodeURIComponent(linkedinName || 'LinkedIn User'));
+      localStorage.setItem('userEmail', decodeURIComponent(linkedinEmail || ''));
+      localStorage.setItem('userPhoto', decodeURIComponent(linkedinPhoto || ''));
+      localStorage.removeItem('linkedin_state');
+      localStorage.removeItem('linkedin_frontend_url');
+      this.isLoading = false;
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    // ✅ LinkedIn code - agar frontend pe code aa jaye (fallback)
     const code = urlParams.get('code');
     const state = urlParams.get('state');
     const savedState = localStorage.getItem('linkedin_state');
@@ -71,9 +99,16 @@ export class AccountPage implements OnInit {
     if (code && state && state === savedState) {
       this.isLoading = true;
       try {
-        const response = await fetch(
-          `https://ravishing-expression-production-393f.up.railway.app/auth/linkedin/callback?code=${code}&redirect_uri=${encodeURIComponent(this.linkedinRedirectUri)}`
-        );
+        const frontendUrl = encodeURIComponent(window.location.origin);
+        const backendUrl = `https://ravishing-expression-production-393f.up.railway.app/auth/linkedin/callback?code=${code}&frontend_url=${frontendUrl}`;
+        const response = await fetch(backendUrl);
+
+        if (response.redirected) {
+          // Backend ne redirect kiya - wahan chale jao
+          window.location.href = response.url;
+          return;
+        }
+
         const data = await response.json();
         if (data.name || data.email) {
           localStorage.setItem('isAccountCreated', 'true');
@@ -85,11 +120,14 @@ export class AccountPage implements OnInit {
           localStorage.setItem('userName', 'LinkedIn User');
         }
         localStorage.removeItem('linkedin_state');
+        localStorage.removeItem('linkedin_frontend_url');
         this.router.navigate(['/home']);
       } catch (e) {
+        console.error('LinkedIn callback error:', e);
         localStorage.setItem('isAccountCreated', 'true');
         localStorage.setItem('userName', 'LinkedIn User');
         localStorage.removeItem('linkedin_state');
+        localStorage.removeItem('linkedin_frontend_url');
         this.router.navigate(['/home']);
       } finally {
         this.isLoading = false;
@@ -97,7 +135,7 @@ export class AccountPage implements OnInit {
       return;
     }
 
-    // Google redirect result check
+    // ✅ Google redirect result check
     try {
       const result = await this.authService.getGoogleRedirectResult();
       if (result?.user) {
@@ -239,13 +277,16 @@ export class AccountPage implements OnInit {
   async loginSocial(type: string) {
     this.isLoading = true;
 
-    // ✅ LinkedIn Login — scope fix kiya
+    // ✅ LinkedIn Login
     if (type === 'linkedin') {
       const state = Math.random().toString(36).substring(7);
       localStorage.setItem('linkedin_state', state);
-      const scope = encodeURIComponent('openid profile email'); // ✅ Fixed: purane deprecated scopes replace kiye
-      const redirectUri = encodeURIComponent(this.linkedinRedirectUri);
-      const linkedinUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${this.linkedinClientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;
+      localStorage.setItem('linkedin_frontend_url', window.location.origin);
+      const scope = encodeURIComponent('openid profile email');
+      // ✅ Redirect URI mein /auth/linkedin/callback add karo
+      const redirectUri = encodeURIComponent('https://ravishing-expression-production-393f.up.railway.app/auth/linkedin/callback');
+      const frontendUrl = encodeURIComponent(window.location.origin + '/account');
+      const linkedinUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${this.linkedinClientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}&frontend_url=${frontendUrl}`;
       window.location.href = linkedinUrl;
       return;
     }
