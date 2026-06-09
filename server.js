@@ -11,8 +11,10 @@ const ONESIGNAL_APP_ID = "bb6f5013-9733-4600-a122-dcb6b8eb4100";
 const ONESIGNAL_REST_KEY = "PASTE_YOUR_REST_KEY";
 
 // ========== LinkedIn Config ==========
-const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID;
-const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET;const REDIRECT_URI = "https://ravishing-expression-production-393f.up.railway.app";
+const LINKEDIN_CLIENT_ID = "784irhiq5au78p";
+const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET || "";
+const REDIRECT_URI = "https://ravishing-expression-production-393f.up.railway.app/auth/linkedin/callback";
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:8100";
 
 // ========== Health Check ==========
 app.get("/", (req, res) => {
@@ -61,81 +63,55 @@ app.get("/auth/linkedin/callback", async (req, res) => {
   }
 
   try {
-    // LinkedIn se Access Token lo
+    // ✅ LinkedIn se Access Token lo (OpenID Connect)
     const tokenResponse = await axios.post(
       "https://www.linkedin.com/oauth/v2/accessToken",
-      null,
+      new URLSearchParams({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: REDIRECT_URI,
+        client_id: LINKEDIN_CLIENT_ID,
+        client_secret: LINKEDIN_CLIENT_SECRET,
+      }),
       {
-        params: {
-          grant_type: "authorization_code",
-          code: code,
-          redirect_uri: REDIRECT_URI,
-          client_id: LINKEDIN_CLIENT_ID,
-          client_secret: LINKEDIN_CLIENT_SECRET,
-        },
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       }
     );
 
     const accessToken = tokenResponse.data.access_token;
 
-    // LinkedIn se Profile lo
+    // ✅ OpenID Connect userinfo endpoint se profile lo
     let name = "LinkedIn User";
     let email = "";
     let picture = "";
 
     try {
-      const profileRes = await axios.get(
-        "https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))",
+      const userinfoRes = await axios.get(
+        "https://api.linkedin.com/v2/userinfo",
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
-      name =
-        (profileRes.data.localizedFirstName || "") +
-        " " +
-        (profileRes.data.localizedLastName || "");
-      const images =
-        profileRes.data?.profilePicture?.["displayImage~"]?.elements;
-      if (images && images.length > 0) {
-        picture =
-          images[images.length - 1]?.identifiers?.[0]?.identifier || "";
-      }
+      const userinfo = userinfoRes.data;
+      name = userinfo.name || ((userinfo.given_name || "") + " " + (userinfo.family_name || "")).trim() || "LinkedIn User";
+      email = userinfo.email || "";
+      picture = userinfo.picture || "";
     } catch (e) {
-      console.error("Profile fetch error:", e.message);
+      console.error("Userinfo fetch error:", e.message);
     }
 
-    try {
-      const emailRes = await axios.get(
-        "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))",
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-      email =
-        emailRes.data?.elements?.[0]?.["handle~"]?.emailAddress || "";
-    } catch (e) {
-      console.error("Email fetch error:", e.message);
-    }
+    // ✅ Frontend pe redirect karo with data
+    const safeName = encodeURIComponent(name.trim());
+    const safeEmail = encodeURIComponent(email);
+    const safePhoto = encodeURIComponent(picture);
 
-    // User ko app par wapas bhejo
-    res.send(`
-      <html>
-        <body>
-          <h3>✅ LinkedIn Login Successful!</h3>
-          <p>App par wapas ja raha hai...</p>
-          <script>
-            localStorage.setItem('isAccountCreated', 'true');
-            localStorage.setItem('userName', '${name.trim()}');
-            localStorage.setItem('userEmail', '${email}');
-            localStorage.setItem('userPhoto', '${picture}');
-            localStorage.removeItem('linkedin_state');
-            setTimeout(() => {
-              window.location.href = '/';
-            }, 1000);
-          </script>
-        </body>
-      </html>
-    `);
+    // FRONTEND_URL environment variable se lo
+    return res.redirect(
+      `${FRONTEND_URL}/account?linkedin_name=${safeName}&linkedin_email=${safeEmail}&linkedin_photo=${safePhoto}`
+    );
+
   } catch (error) {
-    console.error("LinkedIn OAuth Error:", error.message);
-    res.status(500).json({ error: "LinkedIn login failed: " + error.message });
+    console.error("LinkedIn OAuth Error:", error.response?.data || error.message);
+    const errMsg = encodeURIComponent("LinkedIn login failed");
+    return res.redirect(`${FRONTEND_URL}/account?linkedin_error=${errMsg}`);
   }
 });
 
