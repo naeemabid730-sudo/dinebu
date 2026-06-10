@@ -1,0 +1,5 @@
+[phases.build]
+cmds = ["npm install --legacy-peer-deps", "ng build --configuration production"]
+
+[start]
+cmd = "npx serve -s www -l $PORT"
